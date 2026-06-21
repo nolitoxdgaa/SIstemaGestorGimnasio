@@ -4,9 +4,9 @@
 -- Hash generado con: bcrypt.hashSync('Demo1234', 10)
 
 INSERT INTO usuarios (nombre, email, password_hash, rol) VALUES
-  ('Admin OLYMPUS',       'admin@olympuscore.com',        '$2b$10$rOvHc7JlCPbFXj/vFvP8OeY3V2qL5ZkMbPxH1n2sWdK6X4gR7A8Yq', 'administrador'),
-  ('Maria Recepcion',     'recepcion@olympuscore.com',    '$2b$10$rOvHc7JlCPbFXj/vFvP8OeY3V2qL5ZkMbPxH1n2sWdK6X4gR7A8Yq', 'recepcionista'),
-  ('Carlos Entrenador',   'entrenador@olympuscore.com',   '$2b$10$rOvHc7JlCPbFXj/vFvP8OeY3V2qL5ZkMbPxH1n2sWdK6X4gR7A8Yq', 'entrenador')
+  ('Admin OLYMPUS',       'admin@olympuscore.com',        '$2a$10$ErpoAe3Os/b7IZYI1q/qVeB.wV86hu6rLPJzvxnuY97RWpBsvYmPK', 'administrador'),
+  ('Maria Recepcion',     'recepcion@olympuscore.com',    '$2a$10$ErpoAe3Os/b7IZYI1q/qVeB.wV86hu6rLPJzvxnuY97RWpBsvYmPK', 'recepcionista'),
+  ('Carlos Entrenador',   'entrenador@olympuscore.com',   '$2a$10$ErpoAe3Os/b7IZYI1q/qVeB.wV86hu6rLPJzvxnuY97RWpBsvYmPK', 'entrenador')
 ON CONFLICT (email) DO NOTHING;
 
 -- Socio de demostración
