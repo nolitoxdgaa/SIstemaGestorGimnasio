@@ -1,0 +1,3 @@
+-- Migration 002: Socios y Membresías
+-- Tablas creadas: socios, membresias, pagos, logs_acceso
+-- Ver database/schema.sql para el DDL completo.

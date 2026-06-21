@@ -1,7 +1,9 @@
 ﻿const express = require('express');
 const router = express.Router();
+const { getPlanes, getPlanById } = require('../controllers/plan.controller');
+const { authenticate } = require('../middlewares/auth.middleware');
 
-// TODO: Implementar rutas de planes
-// Ver API_CONTRACT.md para la especificación de endpoints
+router.get('/', authenticate, getPlanes);
+router.get('/:id', authenticate, getPlanById);
 
 module.exports = router;

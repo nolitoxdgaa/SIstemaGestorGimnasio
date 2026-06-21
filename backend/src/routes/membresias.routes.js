@@ -1,7 +1,9 @@
 ﻿const express = require('express');
 const router = express.Router();
+const { getMembresias } = require('../controllers/membresia.controller');
+const { authenticate } = require('../middlewares/auth.middleware');
+const { authorize } = require('../middlewares/roles.middleware');
 
-// TODO: Implementar rutas de membresias
-// Ver API_CONTRACT.md para la especificación de endpoints
+router.get('/', authenticate, authorize('administrador','recepcionista'), getMembresias);
 
 module.exports = router;
