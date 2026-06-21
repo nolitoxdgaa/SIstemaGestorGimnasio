@@ -1,47 +1,60 @@
-import axios from 'axios';
-
 /**
- * api.js — Instancia base de Axios para todo el frontend.
- * TODOS los services del proyecto importan este objeto.
- * 
- * Maneja automáticamente:
- * - Base URL desde variables de entorno
- * - Inyección del token JWT en cada request
- * - Redirección al login si el token expira (401)
+ * api.js — Cliente HTTP base usando fetch con interceptores manuales.
+ * Adjunta automáticamente el JWT y maneja errores globales.
  */
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api/v1',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  timeout: 10000, // 10 segundos máximo por request
+
+const BASE_URL = '/api/v1';
+
+const getToken = () => localStorage.getItem('oc_token');
+
+const buildHeaders = (extra = {}) => ({
+  'Content-Type': 'application/json',
+  ...(getToken() ? { Authorization: `Bearer ${getToken()}` } : {}),
+  ...extra,
 });
 
-// ─── Interceptor de REQUEST ───────────────────────────────────────────────────
-// Agrega el token JWT a cada solicitud si existe en localStorage
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('olympus_token');
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
-// ─── Interceptor de RESPONSE ──────────────────────────────────────────────────
-// Si el servidor devuelve 401, limpia la sesión y redirige al login
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('olympus_token');
-      localStorage.removeItem('olympus_usuario');
-      window.location.href = '/login';
-    }
-    return Promise.reject(error);
+const handleResponse = async (res) => {
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const msg = data?.message || `Error ${res.status}`;
+    const err = new Error(msg);
+    err.status = res.status;
+    err.data   = data;
+    throw err;
   }
-);
+  return data;
+};
+
+const api = {
+  get: (path, params) => {
+    const url = new URL(`${BASE_URL}${path}`, window.location.origin);
+    if (params) Object.entries(params).forEach(([k, v]) => v != null && url.searchParams.set(k, v));
+    return fetch(url.toString(), { headers: buildHeaders() }).then(handleResponse);
+  },
+  post: (path, body) =>
+    fetch(`${BASE_URL}${path}`, {
+      method: 'POST',
+      headers: buildHeaders(),
+      body: JSON.stringify(body),
+    }).then(handleResponse),
+  put: (path, body) =>
+    fetch(`${BASE_URL}${path}`, {
+      method: 'PUT',
+      headers: buildHeaders(),
+      body: JSON.stringify(body),
+    }).then(handleResponse),
+  patch: (path, body) =>
+    fetch(`${BASE_URL}${path}`, {
+      method: 'PATCH',
+      headers: buildHeaders(),
+      body: JSON.stringify(body),
+    }).then(handleResponse),
+  delete: (path, body) =>
+    fetch(`${BASE_URL}${path}`, {
+      method: 'DELETE',
+      headers: buildHeaders(),
+      ...(body ? { body: JSON.stringify(body) } : {}),
+    }).then(handleResponse),
+};
 
 export default api;

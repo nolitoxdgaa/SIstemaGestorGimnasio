@@ -79,7 +79,7 @@ const Socio = {
         m.id AS membresia_id, p.nombre AS plan_nombre,
         m.estado AS membresia_estado, m.fecha_inicio, m.fecha_fin,
         COALESCE(strikes.total, 0) AS strikes,
-        (fm.id IS NOT NULL) AS ficha_medica_completa
+        false AS ficha_medica_completa
       FROM socios s
       LEFT JOIN membresias m ON m.socio_id = s.id AND m.estado = 'activa'
       LEFT JOIN planes p ON p.id = m.plan_id
@@ -89,7 +89,6 @@ const Socio = {
         WHERE creado_en >= NOW() - INTERVAL '30 days' AND justificada = false
         GROUP BY socio_id
       ) strikes ON strikes.socio_id = s.id
-      LEFT JOIN fichas_medicas fm ON fm.socio_id = s.id
       WHERE s.id = $1`,
       [id]
     );

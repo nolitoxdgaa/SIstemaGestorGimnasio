@@ -104,6 +104,12 @@ const ClaseGrupal = {
    * @param {Object} client - Cliente de transacción PostgreSQL.
    */
   verificarAforo: async (claseId, client) => {
+    // Primero bloqueamos la fila de la clase (FOR UPDATE sin GROUP BY)
+    await client.query(
+      `SELECT id FROM clases_grupales WHERE id = $1 FOR UPDATE`,
+      [claseId]
+    );
+    // Luego contamos las reservas confirmadas por separado
     const result = await client.query(
       `SELECT
         cg.aforo_maximo,
@@ -111,8 +117,7 @@ const ClaseGrupal = {
        FROM clases_grupales cg
        LEFT JOIN reservas r ON r.clase_id = cg.id
        WHERE cg.id = $1
-       GROUP BY cg.id, cg.aforo_maximo
-       FOR UPDATE OF cg`,
+       GROUP BY cg.id, cg.aforo_maximo`,
       [claseId]
     );
     if (!result.rows[0]) return { disponible: false, aforoMaximo: 0, ocupados: 0 };

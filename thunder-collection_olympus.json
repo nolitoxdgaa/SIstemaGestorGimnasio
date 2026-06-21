@@ -1,0 +1,364 @@
+{
+  "clientName": "Thunder Client",
+  "collectionName": "OLYMPUS CORE API",
+  "dateExported": "2026-06-21",
+  "version": "1.2",
+  "folders": [
+    { "_id": "f1", "name": "🔐 Auth", "containerId": "" },
+    { "_id": "f2", "name": "👥 Socios", "containerId": "" },
+    { "_id": "f3", "name": "📋 Planes", "containerId": "" },
+    { "_id": "f4", "name": "💰 Pagos", "containerId": "" },
+    { "_id": "f5", "name": "📱 Acceso QR", "containerId": "" },
+    { "_id": "f6", "name": "📅 Clases (Int.2)", "containerId": "" },
+    { "_id": "f7", "name": "🗓️ Reservas (Int.2)", "containerId": "" },
+    { "_id": "f8", "name": "⚠️ Strikes (Int.2)", "containerId": "" }
+  ],
+  "requests": [
+    {
+      "_id": "r00",
+      "colId": "col1",
+      "containerId": "",
+      "name": "🩺 Health Check",
+      "url": "http://localhost:3001/api/v1/health",
+      "method": "GET",
+      "sortNum": 0,
+      "headers": [],
+      "params": [],
+      "body": { "type": "none", "raw": "", "form": [] }
+    },
+    {
+      "_id": "r01",
+      "colId": "col1",
+      "containerId": "f1",
+      "name": "Login Admin",
+      "url": "http://localhost:3001/api/v1/auth/login",
+      "method": "POST",
+      "sortNum": 10,
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"admin@olympuscore.com\",\n  \"password\": \"Demo1234\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "r02",
+      "colId": "col1",
+      "containerId": "f1",
+      "name": "Login Recepcionista",
+      "url": "http://localhost:3001/api/v1/auth/login",
+      "method": "POST",
+      "sortNum": 20,
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"recepcion@olympuscore.com\",\n  \"password\": \"Demo1234\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "r03",
+      "colId": "col1",
+      "containerId": "f2",
+      "name": "GET - Listar socios",
+      "url": "http://localhost:3001/api/v1/socios",
+      "method": "GET",
+      "sortNum": 30,
+      "headers": [{ "name": "Authorization", "value": "Bearer TU_TOKEN_AQUI" }],
+      "params": [],
+      "body": { "type": "none", "raw": "", "form": [] }
+    },
+    {
+      "_id": "r04",
+      "colId": "col1",
+      "containerId": "f2",
+      "name": "POST - Crear socio",
+      "url": "http://localhost:3001/api/v1/socios",
+      "method": "POST",
+      "sortNum": 40,
+      "headers": [
+        { "name": "Authorization", "value": "Bearer TU_TOKEN_AQUI" },
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"nombre\": \"Carlos\",\n  \"apellido\": \"Lopez\",\n  \"dni\": \"87654321\",\n  \"email\": \"carlos@demo.com\",\n  \"telefono\": \"987654321\",\n  \"fechaNacimiento\": \"1995-06-15\",\n  \"planId\": 1\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "r05",
+      "colId": "col1",
+      "containerId": "f2",
+      "name": "GET - Ver socio por ID",
+      "url": "http://localhost:3001/api/v1/socios/1",
+      "method": "GET",
+      "sortNum": 50,
+      "headers": [{ "name": "Authorization", "value": "Bearer TU_TOKEN_AQUI" }],
+      "params": [],
+      "body": { "type": "none", "raw": "", "form": [] }
+    },
+    {
+      "_id": "r06",
+      "colId": "col1",
+      "containerId": "f2",
+      "name": "GET - QR del socio",
+      "url": "http://localhost:3001/api/v1/socios/1/qr",
+      "method": "GET",
+      "sortNum": 60,
+      "headers": [{ "name": "Authorization", "value": "Bearer TU_TOKEN_AQUI" }],
+      "params": [],
+      "body": { "type": "none", "raw": "", "form": [] }
+    },
+    {
+      "_id": "r07",
+      "colId": "col1",
+      "containerId": "f2",
+      "name": "GET - Reservas del socio",
+      "url": "http://localhost:3001/api/v1/socios/1/reservas",
+      "method": "GET",
+      "sortNum": 65,
+      "headers": [{ "name": "Authorization", "value": "Bearer TU_TOKEN_AQUI" }],
+      "params": [],
+      "body": { "type": "none", "raw": "", "form": [] }
+    },
+    {
+      "_id": "r08",
+      "colId": "col1",
+      "containerId": "f3",
+      "name": "GET - Listar planes",
+      "url": "http://localhost:3001/api/v1/planes",
+      "method": "GET",
+      "sortNum": 70,
+      "headers": [{ "name": "Authorization", "value": "Bearer TU_TOKEN_AQUI" }],
+      "params": [],
+      "body": { "type": "none", "raw": "", "form": [] }
+    },
+    {
+      "_id": "r09",
+      "colId": "col1",
+      "containerId": "f4",
+      "name": "POST - Registrar pago (activa membresía)",
+      "url": "http://localhost:3001/api/v1/pagos",
+      "method": "POST",
+      "sortNum": 80,
+      "headers": [
+        { "name": "Authorization", "value": "Bearer TU_TOKEN_AQUI" },
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"socioId\": 1,\n  \"planId\": 1,\n  \"monto\": 100.00,\n  \"metodoPago\": \"efectivo\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "r10",
+      "colId": "col1",
+      "containerId": "f4",
+      "name": "GET - Listar pagos",
+      "url": "http://localhost:3001/api/v1/pagos",
+      "method": "GET",
+      "sortNum": 90,
+      "headers": [{ "name": "Authorization", "value": "Bearer TU_TOKEN_AQUI" }],
+      "params": [],
+      "body": { "type": "none", "raw": "", "form": [] }
+    },
+    {
+      "_id": "r11",
+      "colId": "col1",
+      "containerId": "f5",
+      "name": "POST - Validar QR (pegar token del QR)",
+      "url": "http://localhost:3001/api/v1/acceso/validar",
+      "method": "POST",
+      "sortNum": 100,
+      "headers": [
+        { "name": "Authorization", "value": "Bearer TU_TOKEN_AQUI" },
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"tokenQR\": \"PEGAR_TOKEN_QR_AQUI\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "r12",
+      "colId": "col1",
+      "containerId": "f5",
+      "name": "GET - Logs de acceso",
+      "url": "http://localhost:3001/api/v1/acceso/logs",
+      "method": "GET",
+      "sortNum": 110,
+      "headers": [{ "name": "Authorization", "value": "Bearer TU_TOKEN_AQUI" }],
+      "params": [],
+      "body": { "type": "none", "raw": "", "form": [] }
+    },
+    {
+      "_id": "r13",
+      "colId": "col1",
+      "containerId": "f6",
+      "name": "GET - Listar todas las clases",
+      "url": "http://localhost:3001/api/v1/clases",
+      "method": "GET",
+      "sortNum": 120,
+      "headers": [{ "name": "Authorization", "value": "Bearer TU_TOKEN_AQUI" }],
+      "params": [],
+      "body": { "type": "none", "raw": "", "form": [] }
+    },
+    {
+      "_id": "r14",
+      "colId": "col1",
+      "containerId": "f6",
+      "name": "GET - Solo clases de spinning",
+      "url": "http://localhost:3001/api/v1/clases?tipo=spinning",
+      "method": "GET",
+      "sortNum": 130,
+      "headers": [{ "name": "Authorization", "value": "Bearer TU_TOKEN_AQUI" }],
+      "params": [],
+      "body": { "type": "none", "raw": "", "form": [] }
+    },
+    {
+      "_id": "r15",
+      "colId": "col1",
+      "containerId": "f6",
+      "name": "GET - Solo clases disponibles (con cupo)",
+      "url": "http://localhost:3001/api/v1/clases?disponibles=true",
+      "method": "GET",
+      "sortNum": 140,
+      "headers": [{ "name": "Authorization", "value": "Bearer TU_TOKEN_AQUI" }],
+      "params": [],
+      "body": { "type": "none", "raw": "", "form": [] }
+    },
+    {
+      "_id": "r16",
+      "colId": "col1",
+      "containerId": "f6",
+      "name": "POST - Crear clase nueva",
+      "url": "http://localhost:3001/api/v1/clases",
+      "method": "POST",
+      "sortNum": 150,
+      "headers": [
+        { "name": "Authorization", "value": "Bearer TU_TOKEN_AQUI" },
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"tipo\": \"crossfit\",\n  \"nombre\": \"CrossFit Prueba\",\n  \"descripcion\": \"Clase de prueba\",\n  \"instructor\": \"Coach Demo\",\n  \"fechaHora\": \"2026-08-01T09:00:00Z\",\n  \"duracionMinutos\": 60,\n  \"aforoMaximo\": 10\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "r17",
+      "colId": "col1",
+      "containerId": "f7",
+      "name": "GET - Listar todas las reservas",
+      "url": "http://localhost:3001/api/v1/reservas",
+      "method": "GET",
+      "sortNum": 160,
+      "headers": [{ "name": "Authorization", "value": "Bearer TU_TOKEN_AQUI" }],
+      "params": [],
+      "body": { "type": "none", "raw": "", "form": [] }
+    },
+    {
+      "_id": "r18",
+      "colId": "col1",
+      "containerId": "f7",
+      "name": "POST - Crear reserva",
+      "url": "http://localhost:3001/api/v1/reservas",
+      "method": "POST",
+      "sortNum": 170,
+      "headers": [
+        { "name": "Authorization", "value": "Bearer TU_TOKEN_AQUI" },
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"socioId\": 1,\n  \"claseId\": 1\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "r19",
+      "colId": "col1",
+      "containerId": "f7",
+      "name": "PATCH - Registrar asistencia (asistio: true/false)",
+      "url": "http://localhost:3001/api/v1/reservas/1/asistencia",
+      "method": "PATCH",
+      "sortNum": 180,
+      "headers": [
+        { "name": "Authorization", "value": "Bearer TU_TOKEN_AQUI" },
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"asistio\": true\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "r20",
+      "colId": "col1",
+      "containerId": "f7",
+      "name": "DELETE - Cancelar reserva",
+      "url": "http://localhost:3001/api/v1/reservas/1/cancelar",
+      "method": "DELETE",
+      "sortNum": 190,
+      "headers": [{ "name": "Authorization", "value": "Bearer TU_TOKEN_AQUI" }],
+      "params": [],
+      "body": { "type": "none", "raw": "", "form": [] }
+    },
+    {
+      "_id": "r21",
+      "colId": "col1",
+      "containerId": "f8",
+      "name": "GET - Ver strikes del socio 1",
+      "url": "http://localhost:3001/api/v1/socios/1/strikes",
+      "method": "GET",
+      "sortNum": 200,
+      "headers": [{ "name": "Authorization", "value": "Bearer TU_TOKEN_AQUI" }],
+      "params": [],
+      "body": { "type": "none", "raw": "", "form": [] }
+    },
+    {
+      "_id": "r22",
+      "colId": "col1",
+      "containerId": "f8",
+      "name": "DELETE - Justificar strike",
+      "url": "http://localhost:3001/api/v1/socios/1/strikes/1",
+      "method": "DELETE",
+      "sortNum": 210,
+      "headers": [
+        { "name": "Authorization", "value": "Bearer TU_TOKEN_AQUI" },
+        { "name": "Content-Type", "value": "application/json" }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"justificacion\": \"Certificado medico presentado\"\n}",
+        "form": []
+      }
+    },
+    {
+      "_id": "r23",
+      "colId": "col1",
+      "containerId": "",
+      "name": "📊 Dashboard",
+      "url": "http://localhost:3001/api/v1/dashboard",
+      "method": "GET",
+      "sortNum": 220,
+      "headers": [{ "name": "Authorization", "value": "Bearer TU_TOKEN_AQUI" }],
+      "params": [],
+      "body": { "type": "none", "raw": "", "form": [] }
+    }
+  ],
+  "settings": []
+}
