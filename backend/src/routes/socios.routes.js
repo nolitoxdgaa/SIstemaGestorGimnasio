@@ -1,8 +1,10 @@
-﻿const express = require('express');
+const express = require('express');
 const router = express.Router();
 const { getSocios, getSocioById, createSocio, updateSocio, deleteSocio, getSocioQR } = require('../controllers/socio.controller');
 const { getPagosBySocio } = require('../controllers/pago.controller');
 const { getMembresiaBySocio } = require('../controllers/membresia.controller');
+const { getReservasBySocio } = require('../controllers/reserva.controller');
+const penalizacionesRouter = require('./penalizaciones.routes');
 const { authenticate } = require('../middlewares/auth.middleware');
 const { authorize, authorizeSelfOrRoles } = require('../middlewares/roles.middleware');
 
@@ -14,5 +16,11 @@ router.delete('/:id', authenticate, authorize('administrador'), deleteSocio);
 router.get('/:id/qr', authenticate, authorizeSelfOrRoles('id','administrador','recepcionista'), getSocioQR);
 router.get('/:id/pagos', authenticate, authorizeSelfOrRoles('id','administrador','recepcionista'), getPagosBySocio);
 router.get('/:id/membresia', authenticate, authorizeSelfOrRoles('id','administrador','recepcionista'), getMembresiaBySocio);
+
+// GET /api/v1/socios/:id/reservas — el socio ve las suyas, admin/recepcionista ven cualquiera
+router.get('/:id/reservas', authenticate, authorizeSelfOrRoles('id','administrador','recepcionista'), getReservasBySocio);
+
+// Sub-router de strikes: GET /api/v1/socios/:id/strikes  y  DELETE /api/v1/socios/:id/strikes/:strikeId
+router.use('/:id/strikes', penalizacionesRouter);
 
 module.exports = router;
