@@ -1,18 +1,13 @@
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function LoginPage() {
   const { login } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
 
-  const [form, setForm]   = useState({ email: '', password: '' });
-  const [error, setError] = useState('');
+  const [form, setForm]       = useState({ email: '', password: '' });
+  const [error, setError]     = useState('');
   const [loading, setLoading] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
-
-  const from = location.state?.from?.pathname ?? '/dashboard';
 
   const set = (f) => (e) => setForm(v => ({ ...v, [f]: e.target.value }));
 
@@ -25,16 +20,15 @@ export default function LoginPage() {
     const res = await login(form.email, form.password);
     setLoading(false);
 
-    if (res.success) {
-      navigate(from, { replace: true });
-    } else {
+    if (!res.success) {
       setError(res.message ?? 'Credenciales incorrectas.');
     }
+    // Si success=true, AuthContext actualiza `usuario` → App.jsx re-renderiza
+    // y la Route /login detecta estaAutenticado=true → redirige a /dashboard
   };
 
   return (
     <div className="auth-page">
-      {/* Ambient background */}
       <div className="auth-bg" />
 
       <div className="auth-card">
