@@ -4,14 +4,30 @@ import LoadingSpinner from './components/common/LoadingSpinner';
 import Sidebar from './components/common/Sidebar';
 
 // Pages
-import LoginPage       from './pages/LoginPage';
-import DashboardPage   from './pages/DashboardPage';
-import SociosPage      from './pages/SociosPage';
-import PagosPage       from './pages/PagosPage';
-import AccesoQRPage    from './pages/AccesoQRPage';
-import MembresiasPage  from './pages/MembresiasPage';
+import LoginPage      from './pages/LoginPage';
+import DashboardPage  from './pages/DashboardPage';
+import SociosPage     from './pages/SociosPage';
+import PagosPage      from './pages/PagosPage';
+import AccesoQRPage   from './pages/AccesoQRPage';
+import MembresiasPage from './pages/MembresiasPage';
 
-/* ── Layout con sidebar ─────────────────────────────────── */
+/* ── ProtectedRoute ─────────────────────────────────────────
+   Soporta dos modos de uso:
+   1. Como wrapper de <Route>:  <Route element={<ProtectedRoute />}> → renderiza <Outlet />
+   2. Como wrapper de componente: <ProtectedRoute roles={[...]}><Page /></ProtectedRoute> → renderiza children
+*/
+function ProtectedRoute({ roles = [], children }) {
+  const { estaAutenticado, usuario, cargando } = useAuth();
+
+  if (cargando) return <LoadingSpinner fullPage />;
+  if (!estaAutenticado) return <Navigate to="/login" replace />;
+  if (roles.length > 0 && !roles.includes(usuario?.rol)) {
+    return <Navigate to="/dashboard" replace />;
+  }
+  return children ?? <Outlet />;
+}
+
+/* ── Layout principal con sidebar ────────────────────────── */
 function AppLayout() {
   return (
     <div className="app-layout">
@@ -19,15 +35,6 @@ function AppLayout() {
       <Outlet />
     </div>
   );
-}
-
-/* ── Ruta protegida ─────────────────────────────────────── */
-function ProtectedRoute({ roles = [] }) {
-  const { estaAutenticado, usuario, cargando } = useAuth();
-  if (cargando) return <LoadingSpinner fullPage />;
-  if (!estaAutenticado) return <Navigate to="/login" replace />;
-  if (roles.length > 0 && !roles.includes(usuario?.rol)) return <Navigate to="/dashboard" replace />;
-  return <Outlet />;
 }
 
 /* ── App ────────────────────────────────────────────────── */
@@ -39,32 +46,51 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Público */}
-        <Route path="/login" element={
-          estaAutenticado ? <Navigate to="/dashboard" replace /> : <LoginPage />
-        } />
+        {/* ── Público ── */}
+        <Route
+          path="/login"
+          element={estaAutenticado ? <Navigate to="/dashboard" replace /> : <LoginPage />}
+        />
 
-        {/* Privado — con sidebar */}
+        {/* ── Privado — requiere sesión ── */}
         <Route element={<ProtectedRoute />}>
           <Route element={<AppLayout />}>
+
+            {/* Accesible para todos los roles autenticados */}
             <Route path="/dashboard"  element={<DashboardPage />} />
             <Route path="/socios"     element={<SociosPage />} />
             <Route path="/membresias" element={<MembresiasPage />} />
-            <Route path="/pagos"      element={
-              <ProtectedRoute roles={['administrador', 'recepcionista']}>
-                <PagosPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/acceso"     element={
-              <ProtectedRoute roles={['administrador', 'recepcionista']}>
-                <AccesoQRPage />
-              </ProtectedRoute>
-            } />
+
+            {/* Solo administrador y recepcionista */}
+            <Route
+              path="/pagos"
+              element={
+                <ProtectedRoute roles={['administrador', 'recepcionista']}>
+                  <PagosPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/acceso"
+              element={
+                <ProtectedRoute roles={['administrador', 'recepcionista']}>
+                  <AccesoQRPage />
+                </ProtectedRoute>
+              }
+            />
+
           </Route>
         </Route>
 
-        {/* Fallback */}
-        <Route path="*" element={<Navigate to={estaAutenticado ? '/dashboard' : '/login'} replace />} />
+        {/* ── Raíz y fallback ── */}
+        <Route
+          path="/"
+          element={<Navigate to={estaAutenticado ? '/dashboard' : '/login'} replace />}
+        />
+        <Route
+          path="*"
+          element={<Navigate to={estaAutenticado ? '/dashboard' : '/login'} replace />}
+        />
       </Routes>
     </BrowserRouter>
   );

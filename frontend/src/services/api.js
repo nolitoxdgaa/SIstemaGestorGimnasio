@@ -5,7 +5,8 @@
 
 const BASE_URL = '/api/v1';
 
-const getToken = () => localStorage.getItem('oc_token');
+// ⚠️ Clave sincronizada con AuthContext.jsx
+const getToken = () => localStorage.getItem('olympus_token');
 
 const buildHeaders = (extra = {}) => ({
   'Content-Type': 'application/json',
@@ -19,16 +20,17 @@ const handleResponse = async (res) => {
     const msg = data?.message || `Error ${res.status}`;
     const err = new Error(msg);
     err.status = res.status;
-    err.data   = data;
+    err.response = { data, status: res.status }; // compatibilidad con .response?.data?.message
     throw err;
   }
-  return data;
+  return { data };  // envolvemos en { data } para ser compatibles con los servicios
 };
 
 const api = {
-  get: (path, params) => {
+  get: (path, options = {}) => {
     const url = new URL(`${BASE_URL}${path}`, window.location.origin);
-    if (params) Object.entries(params).forEach(([k, v]) => v != null && url.searchParams.set(k, v));
+    const params = options?.params ?? {};
+    Object.entries(params).forEach(([k, v]) => v != null && url.searchParams.set(k, v));
     return fetch(url.toString(), { headers: buildHeaders() }).then(handleResponse);
   },
   post: (path, body) =>
