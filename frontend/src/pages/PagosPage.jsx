@@ -12,7 +12,8 @@ export default function PagosPage() {
   const [planes, setPlanes]       = useState([]);
   const [loading, setLoading]     = useState(true);
   const [mostrarForm, setMostrarForm] = useState(false);
-  const [filtros, setFiltros]     = useState({ fechaDesde: '', fechaHasta: '', metodoPago: '' });
+  const [formFiltro, setFormFiltro] = useState({ fechaDesde: '', fechaHasta: '', metodoPago: '' });
+  const [filtrosAplicados, setFiltrosAplicados] = useState({ fechaDesde: '', fechaHasta: '', metodoPago: '' });
   const [toast, setToast]         = useState(null);
 
   // Form pago rápido
@@ -32,14 +33,14 @@ export default function PagosPage() {
     setLoading(true);
     try {
       const params = {};
-      if (filtros.fechaDesde) params.fechaDesde = filtros.fechaDesde;
-      if (filtros.fechaHasta) params.fechaHasta = filtros.fechaHasta;
-      if (filtros.metodoPago) params.metodoPago = filtros.metodoPago;
+      if (filtrosAplicados.fechaDesde) params.fechaDesde = filtrosAplicados.fechaDesde;
+      if (filtrosAplicados.fechaHasta) params.fechaHasta = filtrosAplicados.fechaHasta;
+      if (filtrosAplicados.metodoPago) params.metodoPago = filtrosAplicados.metodoPago;
       const { data } = await pagoService.getAll(params);
       setPagos(data.data.pagos);
     } catch { /* admin only */ }
     finally { setLoading(false); }
-  }, [filtros]);
+  }, [filtrosAplicados]);
 
   useEffect(() => {
     pagoService.getPlanes().then(r => setPlanes(r.data.data.planes));
@@ -132,23 +133,23 @@ export default function PagosPage() {
                   <div className="form-group">
                     <label className="form-label">Desde</label>
                     <input type="date" className="form-input"
-                      value={filtros.fechaDesde} onChange={e => setFiltros(f => ({ ...f, fechaDesde: e.target.value }))} />
+                      value={formFiltro.fechaDesde} onChange={e => setFormFiltro(f => ({ ...f, fechaDesde: e.target.value }))} />
                   </div>
                   <div className="form-group">
                     <label className="form-label">Hasta</label>
                     <input type="date" className="form-input"
-                      value={filtros.fechaHasta} onChange={e => setFiltros(f => ({ ...f, fechaHasta: e.target.value }))} />
+                      value={formFiltro.fechaHasta} onChange={e => setFormFiltro(f => ({ ...f, fechaHasta: e.target.value }))} />
                   </div>
                 </div>
                 <div className="form-group">
                   <label className="form-label">Método de pago</label>
-                  <select className="form-select" value={filtros.metodoPago}
-                    onChange={e => setFiltros(f => ({ ...f, metodoPago: e.target.value }))}>
+                  <select className="form-select" value={formFiltro.metodoPago}
+                    onChange={e => setFormFiltro(f => ({ ...f, metodoPago: e.target.value }))}>
                     <option value="">Todos</option>
                     {METODOS_PAGO.map(m => <option key={m} value={m}>{METODO_ICONS[m]} {m}</option>)}
                   </select>
                 </div>
-                <button className="btn btn-secondary" onClick={cargarPagos}>Aplicar filtros</button>
+                <button className="btn btn-secondary" onClick={() => setFiltrosAplicados(formFiltro)}>Aplicar filtros</button>
               </div>
             </div>
 
