@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
 -- ─── TABLA: planes ────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS planes (
   id              SERIAL PRIMARY KEY,
-  nombre          VARCHAR(100) NOT NULL,
+  nombre          VARCHAR(100) NOT NULL UNIQUE,
   descripcion     TEXT,
   duracion_dias   INTEGER NOT NULL,
   precio          NUMERIC(10,2) NOT NULL,

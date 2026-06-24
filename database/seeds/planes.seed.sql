@@ -7,4 +7,4 @@ INSERT INTO planes (nombre, descripcion, duracion_dias, precio, activo) VALUES
   ('Plan Trimestral', 'Acceso ilimitado al gimnasio por 90 días',  90,  260.00, true),
   ('Plan Semestral',  'Acceso ilimitado al gimnasio por 180 días', 180, 480.00, true),
   ('Plan Anual',      'Acceso ilimitado al gimnasio por 365 días', 365, 850.00, true)
-ON CONFLICT DO NOTHING;
+ON CONFLICT (nombre) DO NOTHING;
