@@ -41,7 +41,7 @@ Cada petición al backend debe mostrar:
 | D-03 | Membresías por vencer | Panel derecho | Lista vacía o con socios próximos a vencer |
 | D-04 | Botón Actualizar | Clic "↻ Actualizar" | Datos se recargan sin reload completo |
 | D-05 | Gráfica vacía | Panel inferior izquierdo | Mensaje "Sin clases programadas hoy" |
-| D-06 | Acceso denegado | Login entrenador → ir a `/dashboard` | Dashboard carga (todos pueden verlo) pero la API de resumen devuelve error 403 → "No se pudo cargar el dashboard" |
+| D-06 | Acceso entrenador | Login entrenador → ir a `/dashboard` | Dashboard carga exitosamente con datos reales |
 
 ---
 
