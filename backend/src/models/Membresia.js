@@ -54,6 +54,12 @@ const Membresia = {
   create: async ({ socioId, planId, duracionDias, precio }, client) => {
     const db = client || { query: (text, params) => query(text, params) };
 
+    // Bloquear la fila del socio para prevenir condiciones de carrera en transacciones concurrentes
+    await db.query(
+      'SELECT id FROM socios WHERE id = $1 FOR UPDATE',
+      [socioId]
+    );
+
     // Vencer membresías activas anteriores del mismo socio
     await db.query(
       `UPDATE membresias SET estado = 'vencida' WHERE socio_id = $1 AND estado = 'activa'`,
