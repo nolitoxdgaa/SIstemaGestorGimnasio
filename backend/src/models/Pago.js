@@ -43,8 +43,8 @@ const Pago = {
     let idx = 1;
 
     if (socioId)    { condiciones.push(`p.socio_id = $${idx}`);        params.push(socioId);    idx++; }
-    if (fechaDesde) { condiciones.push(`p.creado_en >= $${idx}`);      params.push(fechaDesde); idx++; }
-    if (fechaHasta) { condiciones.push(`p.creado_en <= $${idx}`);      params.push(fechaHasta); idx++; }
+    if (fechaDesde) { condiciones.push(`DATE(p.creado_en) >= $${idx}`);      params.push(fechaDesde); idx++; }
+    if (fechaHasta) { condiciones.push(`DATE(p.creado_en) <= $${idx}`);      params.push(fechaHasta); idx++; }
     if (metodoPago) { condiciones.push(`p.metodo_pago = $${idx}`);     params.push(metodoPago); idx++; }
 
     const where = condiciones.length > 0 ? 'WHERE ' + condiciones.join(' AND ') : '';
