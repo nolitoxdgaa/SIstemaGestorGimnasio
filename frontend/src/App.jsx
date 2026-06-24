@@ -17,9 +17,8 @@ import MembresiasPage from './pages/MembresiasPage';
    2. Como wrapper de componente: <ProtectedRoute roles={[...]}><Page /></ProtectedRoute> → renderiza children
 */
 function ProtectedRoute({ roles = [], children }) {
-  const { estaAutenticado, usuario, cargando } = useAuth();
+  const { estaAutenticado, usuario } = useAuth();
 
-  if (cargando) return <LoadingSpinner fullPage />;
   if (!estaAutenticado) return <Navigate to="/login" replace />;
   if (roles.length > 0 && !roles.includes(usuario?.rol)) {
     return <Navigate to="/dashboard" replace />;
@@ -39,9 +38,7 @@ function AppLayout() {
 
 /* ── App ────────────────────────────────────────────────── */
 export default function App() {
-  const { estaAutenticado, cargando } = useAuth();
-
-  if (cargando) return <LoadingSpinner fullPage />;
+  const { estaAutenticado } = useAuth();
 
   return (
     <BrowserRouter>

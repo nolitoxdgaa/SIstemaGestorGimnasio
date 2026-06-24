@@ -1,6 +1,5 @@
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation, Outlet } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import LoadingSpinner from './LoadingSpinner';
 
 /**
  * ProtectedRoute — redirige al login si no hay sesión activa.
@@ -12,10 +11,8 @@ import LoadingSpinner from './LoadingSpinner';
  *   </Route>
  */
 export default function ProtectedRoute({ roles = [] }) {
-  const { estaAutenticado, usuario, cargando } = useAuth();
+  const { estaAutenticado, usuario } = useAuth();
   const location = useLocation();
-
-  if (cargando) return <LoadingSpinner fullPage />;
 
   if (!estaAutenticado) {
     return <Navigate to="/login" state={{ from: location }} replace />;
@@ -25,7 +22,5 @@ export default function ProtectedRoute({ roles = [] }) {
     return <Navigate to="/dashboard" replace />;
   }
 
-  // Renderiza las rutas hijas via Outlet (usado en App.jsx)
-  const { Outlet } = require('react-router-dom');
   return <Outlet />;
 }
