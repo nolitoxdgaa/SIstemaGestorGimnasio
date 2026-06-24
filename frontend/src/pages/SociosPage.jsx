@@ -5,6 +5,7 @@ import Navbar from '../components/common/Navbar';
 import SocioCard from '../components/socio/SocioCard';
 import SocioForm from '../components/socio/SocioForm';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import { useAuth } from '../context/AuthContext';
 
 /* ── Modal QR ─────────────────────────────────────────────── */
 function ModalQR({ socio, onClose }) {
@@ -145,6 +146,9 @@ function ModalPago({ socio, onClose, onSuccess }) {
 
 /* ── Página principal ─────────────────────────────────────── */
 export default function SociosPage() {
+  const { usuario } = useAuth();
+  const esEntrenador = usuario?.rol === 'entrenador';
+
   const [socios, setSocios]       = useState([]);
   const [total, setTotal]         = useState(0);
   const [loading, setLoading]     = useState(true);
@@ -226,9 +230,11 @@ export default function SociosPage() {
             </div>
             <div className="toolbar-right">
               <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>{total} socios</span>
-              <button id="btn-nuevo-socio" className="btn btn-primary" onClick={() => setModalCrear(true)}>
-                + Nuevo Socio
-              </button>
+              {!esEntrenador && (
+                <button id="btn-nuevo-socio" className="btn btn-primary" onClick={() => setModalCrear(true)}>
+                  + Nuevo Socio
+                </button>
+              )}
             </div>
           </div>
 
@@ -237,16 +243,20 @@ export default function SociosPage() {
             <div className="empty-state">
               <div className="empty-icon">👥</div>
               <div className="empty-title">No se encontraron socios</div>
-              <div className="empty-desc">Cambia los filtros o registra un nuevo socio</div>
-              <button className="btn btn-primary" onClick={() => setModalCrear(true)}>Registrar socio</button>
+              <div className="empty-desc">
+                {esEntrenador ? 'No hay socios registrados con estos filtros.' : 'Cambia los filtros o registra un nuevo socio'}
+              </div>
+              {!esEntrenador && (
+                <button className="btn btn-primary" onClick={() => setModalCrear(true)}>Registrar socio</button>
+              )}
             </div>
           ) : (
             <div className="grid-3" style={{ marginBottom: '1.5rem' }}>
               {socios.map(s => (
                 <SocioCard key={s.id} socio={s}
-                  onVerQR={() => setModalQR(s)}
-                  onEditar={() => setModalEditar(s)}
-                  onPago={() => setModalPago(s)} />
+                  onVerQR={esEntrenador ? null : () => setModalQR(s)}
+                  onEditar={esEntrenador ? null : () => setModalEditar(s)}
+                  onPago={esEntrenador ? null : () => setModalPago(s)} />
               ))}
             </div>
           )}

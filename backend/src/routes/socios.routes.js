@@ -8,7 +8,7 @@ const penalizacionesRouter = require('./penalizaciones.routes');
 const { authenticate } = require('../middlewares/auth.middleware');
 const { authorize, authorizeSelfOrRoles } = require('../middlewares/roles.middleware');
 
-router.get('/',     authenticate, authorize('administrador','recepcionista'), getSocios);
+router.get('/',     authenticate, authorize('administrador','recepcionista','entrenador'), getSocios);
 router.post('/',    authenticate, authorize('administrador','recepcionista'), createSocio);
 router.get('/:id',  authenticate, authorize('administrador','recepcionista','entrenador'), getSocioById);
 router.put('/:id',  authenticate, authorize('administrador','recepcionista'), updateSocio);
