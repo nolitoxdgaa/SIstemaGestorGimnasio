@@ -38,7 +38,11 @@ const Socio = {
         m.estado AS membresia_estado, m.fecha_inicio, m.fecha_fin,
         COALESCE(strikes.total, 0) AS strikes
       FROM socios s
-      LEFT JOIN membresias m ON m.socio_id = s.id AND m.estado = 'activa'
+      LEFT JOIN (
+        SELECT DISTINCT ON (socio_id) id, socio_id, plan_id, estado, fecha_inicio, fecha_fin, precio
+        FROM membresias
+        ORDER BY socio_id, fecha_fin DESC, id DESC
+      ) m ON m.socio_id = s.id
       LEFT JOIN planes p ON p.id = m.plan_id
       LEFT JOIN (
         SELECT socio_id, COUNT(*) AS total
@@ -81,7 +85,11 @@ const Socio = {
         COALESCE(strikes.total, 0) AS strikes,
         false AS ficha_medica_completa
       FROM socios s
-      LEFT JOIN membresias m ON m.socio_id = s.id AND m.estado = 'activa'
+      LEFT JOIN (
+        SELECT DISTINCT ON (socio_id) id, socio_id, plan_id, estado, fecha_inicio, fecha_fin, precio
+        FROM membresias
+        ORDER BY socio_id, fecha_fin DESC, id DESC
+      ) m ON m.socio_id = s.id
       LEFT JOIN planes p ON p.id = m.plan_id
       LEFT JOIN (
         SELECT socio_id, COUNT(*) AS total

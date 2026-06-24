@@ -11,6 +11,7 @@ import { useAuth } from '../context/AuthContext';
 function ModalQR({ socio, onClose }) {
   const [qr, setQr]       = useState(null);
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied]   = useState(false);
 
   useEffect(() => {
     socioService.getQR(socio.id)
@@ -18,6 +19,19 @@ function ModalQR({ socio, onClose }) {
       .catch(() => {})
       .finally(() => setLoading(false));
   }, [socio.id]);
+
+  const handleCopy = () => {
+    if (qr?.token) {
+      navigator.clipboard.writeText(qr.token)
+        .then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        })
+        .catch(err => {
+          console.error("Error al copiar token: ", err);
+        });
+    }
+  };
 
   return (
     <div className="modal-backdrop" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
@@ -40,10 +54,19 @@ function ModalQR({ socio, onClose }) {
         </div>
         <div className="modal-footer" style={{ justifyContent: 'center' }}>
           {qr && (
-            <a href={qr.codigoQR} download={`qr-socio-${socio.id}.png`}
-              className="btn btn-primary btn-sm">
-              ⬇ Descargar QR
-            </a>
+            <>
+              <button 
+                onClick={handleCopy} 
+                className="btn btn-secondary btn-sm"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+              >
+                {copied ? '✓ Copiado' : '📋 Copiar Token'}
+              </button>
+              <a href={qr.codigoQR} download={`qr-socio-${socio.id}.png`}
+                className="btn btn-primary btn-sm">
+                ⬇ Descargar QR
+              </a>
+            </>
           )}
           <button className="btn btn-secondary btn-sm" onClick={onClose}>Cerrar</button>
         </div>
