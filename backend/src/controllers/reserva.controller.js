@@ -15,6 +15,12 @@ const {
 const getReservas = async (req, res, next) => {
   try {
     const { socioId, claseId, estado, fecha } = req.query;
+
+    // Si es socio, forzar que solo consulte sus propias reservas
+    if (req.usuario.rol === 'socio' && String(socioId) !== String(req.usuario.id)) {
+      return sendError(res, 'No tienes permisos para ver las reservas de otros socios.', 'FORBIDDEN', 403);
+    }
+
     const reservas = await Reserva.findAll({ socioId, claseId, estado, fecha });
     return sendSuccess(res, 'Reservas obtenidas.', { reservas });
   } catch (err) {

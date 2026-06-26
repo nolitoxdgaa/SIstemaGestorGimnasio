@@ -15,7 +15,7 @@ const { validate } = require('../middlewares/validate.middleware');
 router.get(
   '/',
   authenticate,
-  authorize('administrador', 'recepcionista'),
+  authorize('administrador', 'recepcionista', 'socio'),
   getReservas
 );
 
