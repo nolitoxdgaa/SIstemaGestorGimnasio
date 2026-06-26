@@ -53,7 +53,7 @@ export default function MiPerfilPage() {
     ? Math.max(0, Math.ceil((new Date(membresia.fechaFin) - new Date()) / 86400000))
     : null;
 
-  const proximas = reservas.filter(r => r.estado === 'confirmada' && new Date(r.claseHora) >= new Date());
+  const proximas = reservas.filter(r => r.estado === 'confirmada' && new Date(r.clase_hora || r.claseHora) >= new Date());
 
   if (loading) return <div className="main-content"><Navbar title="Mi Perfil" /><LoadingSpinner /></div>;
 

@@ -40,8 +40,8 @@ export default function MisReservasPage() {
   useEffect(() => { cargar(); }, [cargar]);
 
   const ahora = new Date();
-  const proximas  = reservas.filter(r => r.estado === 'confirmada' && new Date(r.claseHora) >= ahora);
-  const historial = reservas.filter(r => r.estado !== 'confirmada' || new Date(r.claseHora) < ahora);
+  const proximas  = reservas.filter(r => r.estado === 'confirmada' && new Date(r.clase_hora || r.claseHora) >= ahora);
+  const historial = reservas.filter(r => r.estado !== 'confirmada' || new Date(r.clase_hora || r.claseHora) < ahora);
 
   const lista = tab === 0 ? proximas : historial;
 

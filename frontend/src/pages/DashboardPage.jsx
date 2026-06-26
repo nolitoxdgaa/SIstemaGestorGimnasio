@@ -84,7 +84,7 @@ export default function DashboardPage() {
       : null;
 
     const proximas = reservas.filter(
-      (r) => r.estado === 'confirmada' && new Date(r.claseHora) >= new Date()
+      (r) => r.estado === 'confirmada' && new Date(r.clase_hora || r.claseHora) >= new Date()
     );
 
     return (
@@ -199,9 +199,9 @@ export default function DashboardPage() {
                         borderRadius: 'var(--radius)', border: '1px solid var(--border-card)',
                       }}>
                         <div>
-                          <div style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-primary)' }}>{r.claseNombre}</div>
+                          <div style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-primary)' }}>{r.clase_nombre || r.claseNombre}</div>
                           <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
-                            {new Date(r.claseHora).toLocaleString('es-PE', { weekday: 'long', hour: '2-digit', minute: '2-digit' })}
+                            {new Date(r.clase_hora || r.claseHora).toLocaleString('es-PE', { weekday: 'long', hour: '2-digit', minute: '2-digit' })}
                           </div>
                         </div>
                         <span className="badge badge-info" style={{ textTransform: 'capitalize' }}>{r.instructor}</span>
