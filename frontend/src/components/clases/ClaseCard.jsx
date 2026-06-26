@@ -12,11 +12,16 @@ const TIPO_EMOJIS = {
 };
 
 export default function ClaseCard({ clase, onReservar, onCancelar, reservaId, cargando }) {
-  const llena    = clase.aforoDisponible === 0;
+  const aforoDisponible = clase.aforo_disponible !== undefined ? clase.aforo_disponible : clase.aforoDisponible;
+  const aforoMaximo = clase.aforo_maximo !== undefined ? clase.aforo_maximo : clase.aforoMaximo;
+  const duracionMinutos = clase.duracion_minutos !== undefined ? clase.duracion_minutos : clase.duracionMinutos;
+  const fechaHoraStr = clase.fecha_hora || clase.fechaHora;
+
+  const llena    = aforoDisponible === 0;
   const cancelada = clase.estado === 'cancelada';
   const tengoReserva = !!reservaId;
 
-  const fechaHora = new Date(clase.fechaHora);
+  const fechaHora = new Date(fechaHoraStr);
   const fecha = fechaHora.toLocaleDateString('es-PE', { weekday: 'short', day: '2-digit', month: 'short' });
   const hora  = fechaHora.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
 
@@ -52,18 +57,18 @@ export default function ClaseCard({ clase, onReservar, onCancelar, reservaId, ca
         <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
           🎓 {clase.instructor}
         </div>
-        {clase.duracionMinutos && (
+        {duracionMinutos && (
           <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-            ⏱ {clase.duracionMinutos} min
+            ⏱ {duracionMinutos} min
           </div>
         )}
       </div>
 
       {/* Aforo */}
-      <AforoIndicator disponible={clase.aforoDisponible} maximo={clase.aforoMaximo} />
+      <AforoIndicator disponible={aforoDisponible} maximo={aforoMaximo} />
 
       {/* Acciones */}
-      {!cancelada && (
+      {!cancelada && (onReservar || onCancelar) && (
         <div style={{ marginTop: '0.25rem' }}>
           {tengoReserva ? (
             <button

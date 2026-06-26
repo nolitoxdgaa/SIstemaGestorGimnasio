@@ -14,7 +14,8 @@ export default function HorarioGrid({ clases }) {
   // Agrupar por día de semana
   const grid = DAYS.map(() => []);
   clases.forEach(c => {
-    const idx = getDayIndex(c.fechaHora);
+    const fStr = c.fecha_hora || c.fechaHora;
+    const idx = getDayIndex(fStr);
     grid[idx].push(c);
   });
 
@@ -35,24 +36,30 @@ export default function HorarioGrid({ clases }) {
                 height: 40, borderRadius: 'var(--radius-sm)',
                 background: 'var(--bg-secondary)', border: '1px dashed var(--border)',
               }} />
-            ) : grid[i].map(c => (
-              <div key={c.id} style={{
-                padding: '0.3rem 0.4rem',
-                borderRadius: 'var(--radius-sm)',
-                background: c.estado === 'cancelada'
-                  ? 'var(--danger-light)'
-                  : c.aforoDisponible === 0
-                    ? 'var(--warning-light)'
-                    : 'var(--accent-light)',
-                fontSize: '0.67rem',
-                fontWeight: 600,
-                color: c.estado === 'cancelada' ? 'var(--danger)' : c.aforoDisponible === 0 ? 'var(--warning)' : 'var(--accent)',
-                lineHeight: 1.3,
-              }}>
-                <div>{new Date(c.fechaHora).toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' })}</div>
-                <div style={{ fontWeight: 400, opacity: 0.85 }}>{c.nombre}</div>
-              </div>
-            ))}
+            ) : grid[i].map(c => {
+              const aforoDisponible = c.aforo_disponible !== undefined ? c.aforo_disponible : c.aforoDisponible;
+              const fStr = c.fecha_hora || c.fechaHora;
+              const isLlena = aforoDisponible === 0;
+
+              return (
+                <div key={c.id} style={{
+                  padding: '0.3rem 0.4rem',
+                  borderRadius: 'var(--radius-sm)',
+                  background: c.estado === 'cancelada'
+                    ? 'var(--danger-light)'
+                    : isLlena
+                      ? 'var(--warning-light)'
+                      : 'var(--accent-light)',
+                  fontSize: '0.67rem',
+                  fontWeight: 600,
+                  color: c.estado === 'cancelada' ? 'var(--danger)' : isLlena ? 'var(--warning)' : 'var(--accent)',
+                  lineHeight: 1.3,
+                }}>
+                  <div>{new Date(fStr).toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' })}</div>
+                  <div style={{ fontWeight: 400, opacity: 0.85 }}>{c.nombre}</div>
+                </div>
+              );
+            })}
           </div>
         </div>
       ))}

@@ -23,9 +23,9 @@ export default function ClaseForm({ clase, onSuccess, onCancel }) {
     nombre:          clase.nombre,
     descripcion:     clase.descripcion ?? '',
     instructor:      clase.instructor,
-    fechaHora:       clase.fechaHora?.slice(0, 16) ?? '',
-    duracionMinutos: clase.duracionMinutos,
-    aforoMaximo:     clase.aforoMaximo,
+    fechaHora:       (clase.fecha_hora || clase.fechaHora)?.slice(0, 16) ?? '',
+    duracionMinutos: clase.duracion_minutos !== undefined ? clase.duracion_minutos : clase.duracionMinutos,
+    aforoMaximo:     clase.aforo_maximo !== undefined ? clase.aforo_maximo : clase.aforoMaximo,
   } : INITIAL);
   const [loading, setLoading] = useState(false);
   const [error,   setError]   = useState('');

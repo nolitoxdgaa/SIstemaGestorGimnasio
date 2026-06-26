@@ -8,7 +8,10 @@ export default function CancelacionModal({ reserva, onClose, onSuccess }) {
   const [loading, setLoading] = useState(false);
   const [error,   setError]   = useState('');
 
-  const fechaHora = reserva.claseHora ? new Date(reserva.claseHora) : null;
+  const claseHoraStr = reserva.clase_hora || reserva.claseHora;
+  const claseNombreStr = reserva.clase_nombre || reserva.claseNombre;
+
+  const fechaHora = claseHoraStr ? new Date(claseHoraStr) : null;
   const fecha = fechaHora?.toLocaleDateString('es-PE', { weekday: 'long', day: 'numeric', month: 'long' }) ?? '—';
   const hora  = fechaHora?.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' }) ?? '';
 
@@ -39,7 +42,7 @@ export default function CancelacionModal({ reserva, onClose, onSuccess }) {
 
           <div style={{ padding: '1rem', background: 'var(--danger-light)', borderRadius: 'var(--radius)', border: '1px solid rgba(239,68,68,0.2)' }}>
             <div style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--danger)', marginBottom: '0.4rem' }}>
-              {reserva.claseNombre ?? 'Clase'}
+              {claseNombreStr ?? 'Clase'}
             </div>
             <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
               📅 {fecha} {hora && `• ⏰ ${hora}`}

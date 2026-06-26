@@ -10,7 +10,11 @@ export default function ReservaModal({ clase, onClose, onSuccess }) {
   const [loading, setLoading] = useState(false);
   const [error,   setError]   = useState('');
 
-  const fechaHora = new Date(clase.fechaHora);
+  const fechaHoraStr = clase.fecha_hora || clase.fechaHora;
+  const duracionMinutos = clase.duracion_minutos !== undefined ? clase.duracion_minutos : clase.duracionMinutos;
+  const aforoDisponible = clase.aforo_disponible !== undefined ? clase.aforo_disponible : clase.aforoDisponible;
+
+  const fechaHora = new Date(fechaHoraStr);
   const fecha = fechaHora.toLocaleDateString('es-PE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
   const hora  = fechaHora.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
 
@@ -43,9 +47,9 @@ export default function ReservaModal({ clase, onClose, onSuccess }) {
             <div style={{ fontWeight: 700, fontSize: '1rem', marginBottom: '0.5rem' }}>{clase.nombre}</div>
             <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
               <div>📅 {fecha}</div>
-              <div>⏰ {hora} • ⏱ {clase.duracionMinutos} min</div>
+              <div>⏰ {hora} • ⏱ {duracionMinutos} min</div>
               <div>🎓 {clase.instructor}</div>
-              <div>👥 {clase.aforoDisponible} cupos disponibles</div>
+              <div>👥 {aforoDisponible} cupos disponibles</div>
             </div>
           </div>
 
