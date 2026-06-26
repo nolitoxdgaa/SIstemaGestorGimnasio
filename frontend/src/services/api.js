@@ -17,6 +17,13 @@ const buildHeaders = (extra = {}) => ({
 const handleResponse = async (res) => {
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
+    if (res.status === 401) {
+      localStorage.removeItem('olympus_token');
+      localStorage.removeItem('olympus_usuario');
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login';
+      }
+    }
     const msg = data?.message || `Error ${res.status}`;
     const err = new Error(msg);
     err.status = res.status;
