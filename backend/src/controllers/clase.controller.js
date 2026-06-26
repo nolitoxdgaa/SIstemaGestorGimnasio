@@ -3,7 +3,7 @@ const {
   sendSuccess, sendCreated, sendNotFound, sendBadRequest, sendError,
 } = require('../utils/response.utils');
 
-const TIPOS_VALIDOS = ['spinning', 'crossfit'];
+const TIPOS_VALIDOS = ['spinning', 'crossfit', 'yoga', 'zumba'];
 
 /**
  * GET /api/v1/clases
@@ -72,14 +72,38 @@ const updateClase = async (req, res, next) => {
     if (clase.estado === 'cancelada')
       return sendError(res, 'No se puede modificar una clase cancelada.', 'CLASE_CANCELADA', 409);
 
-    const { nombre, descripcion, instructor, fecha_hora, duracion_minutos, aforo_maximo } = req.body;
+    const {
+      tipo, nombre, descripcion, instructor,
+      fechaHora, fecha_hora,
+      duracionMinutos, duracion_minutos,
+      aforoMaximo, aforo_maximo
+    } = req.body;
+
+    const tipoVal = tipo;
+    const nombreVal = nombre;
+    const descripcionVal = descripcion;
+    const instructorVal = instructor;
+    const fechaHoraVal = fechaHora || fecha_hora;
+    const duracionMinutosVal = duracionMinutos || duracion_minutos;
+    const aforoMaximoVal = aforoMaximo || aforo_maximo;
+
+    if (tipoVal && !TIPOS_VALIDOS.includes(tipoVal))
+      return sendBadRequest(res, `Tipo inválido. Válidos: ${TIPOS_VALIDOS.join(', ')}.`);
+
+    if (fechaHoraVal && new Date(fechaHoraVal) <= new Date())
+      return sendBadRequest(res, 'La fecha y hora de la clase debe ser futura.');
+
+    if (aforoMaximoVal !== undefined && (!Number.isInteger(Number(aforoMaximoVal)) || Number(aforoMaximoVal) <= 0))
+      return sendBadRequest(res, 'El aforo máximo debe ser un número entero positivo.');
+
     const campos = {};
-    if (nombre)           campos.nombre = nombre;
-    if (descripcion)      campos.descripcion = descripcion;
-    if (instructor)       campos.instructor = instructor;
-    if (fecha_hora)       campos.fecha_hora = fecha_hora;
-    if (duracion_minutos) campos.duracion_minutos = duracion_minutos;
-    if (aforo_maximo)     campos.aforo_maximo = aforo_maximo;
+    if (tipoVal)                    campos.tipo = tipoVal;
+    if (nombreVal)                  campos.nombre = nombreVal;
+    if (descripcionVal !== undefined) campos.descripcion = descripcionVal;
+    if (instructorVal)              campos.instructor = instructorVal;
+    if (fechaHoraVal)               campos.fecha_hora = fechaHoraVal;
+    if (duracionMinutosVal)         campos.duracion_minutos = parseInt(duracionMinutosVal);
+    if (aforoMaximoVal)             campos.aforo_maximo = parseInt(aforoMaximoVal);
 
     if (Object.keys(campos).length === 0)
       return sendBadRequest(res, 'No se proporcionaron campos para actualizar.');

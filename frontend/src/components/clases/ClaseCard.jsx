@@ -11,7 +11,7 @@ const TIPO_EMOJIS = {
   zumba:    '💃',
 };
 
-export default function ClaseCard({ clase, onReservar, onCancelar, reservaId, cargando }) {
+export default function ClaseCard({ clase, onReservar, onCancelar, onEditar, onCancelarClase, reservaId, cargando }) {
   const aforoDisponible = clase.aforo_disponible !== undefined ? clase.aforo_disponible : clase.aforoDisponible;
   const aforoMaximo = clase.aforo_maximo !== undefined ? clase.aforo_maximo : clase.aforoMaximo;
   const duracionMinutos = clase.duracion_minutos !== undefined ? clase.duracion_minutos : clase.duracionMinutos;
@@ -68,9 +68,9 @@ export default function ClaseCard({ clase, onReservar, onCancelar, reservaId, ca
       <AforoIndicator disponible={aforoDisponible} maximo={aforoMaximo} />
 
       {/* Acciones */}
-      {!cancelada && (onReservar || onCancelar) && (
-        <div style={{ marginTop: '0.25rem' }}>
-          {tengoReserva ? (
+      {!cancelada && (onReservar || onCancelar || onEditar || onCancelarClase) && (
+        <div style={{ marginTop: '0.25rem', display: 'flex', gap: '0.5rem' }}>
+          {tengoReserva && onCancelar && (
             <button
               className="btn btn-danger btn-sm w-full"
               onClick={() => onCancelar?.(reservaId)}
@@ -78,13 +78,34 @@ export default function ClaseCard({ clase, onReservar, onCancelar, reservaId, ca
             >
               ✕ Cancelar mi reserva
             </button>
-          ) : (
+          )}
+          {!tengoReserva && onReservar && (
             <button
               className="btn btn-primary btn-sm w-full"
               onClick={() => onReservar?.(clase)}
               disabled={llena || cargando}
             >
               {llena ? 'Sin cupos' : '✔ Reservar'}
+            </button>
+          )}
+          {onEditar && (
+            <button
+              className="btn btn-secondary btn-sm"
+              style={{ flex: 1 }}
+              onClick={() => onEditar(clase)}
+              disabled={cargando}
+            >
+              ✏️ Editar
+            </button>
+          )}
+          {onCancelarClase && (
+            <button
+              className="btn btn-danger btn-sm"
+              style={{ flex: 1 }}
+              onClick={() => onCancelarClase(clase.id)}
+              disabled={cargando}
+            >
+              ✕ Cancelar
             </button>
           )}
         </div>

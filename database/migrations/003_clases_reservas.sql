@@ -8,7 +8,7 @@
 -- ─── TABLA: clases_grupales ───────────────────────────────────
 CREATE TABLE IF NOT EXISTS clases_grupales (
   id               SERIAL PRIMARY KEY,
-  tipo             VARCHAR(30) NOT NULL CHECK (tipo IN ('spinning','crossfit')),
+  tipo             VARCHAR(30) NOT NULL CHECK (tipo IN ('spinning','crossfit','yoga','zumba')),
   nombre           VARCHAR(100) NOT NULL,
   descripcion      TEXT,
   instructor       VARCHAR(100),

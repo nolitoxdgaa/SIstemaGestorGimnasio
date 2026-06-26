@@ -80,6 +80,11 @@ export default function ClasesPage() {
     }
   };
 
+  const handleEditarClase = (clase) => {
+    setEditando(clase);
+    setModalForm(true);
+  };
+
   // Reserva rápida (para socios sin modal si ya tiene reserva)
   const handleReservar = (clase) => setModalReserva(clase);
   const handleCancelarReserva = (reservaId) => {
@@ -148,6 +153,8 @@ export default function ClasesPage() {
             misReservas={misReservas}
             onReservar={esSocio ? handleReservar : undefined}
             onCancelar={esSocio ? handleCancelarReserva : undefined}
+            onEditar={esAdmin ? handleEditarClase : undefined}
+            onCancelarClase={esAdmin ? handleCancelarClase : undefined}
             cargando={false}
           />
         )}

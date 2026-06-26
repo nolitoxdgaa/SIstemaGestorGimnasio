@@ -3,7 +3,7 @@
 ──────────────────────────────────────────────────────────── */
 import ClaseCard from './ClaseCard';
 
-export default function ClaseList({ clases, misReservas = [], onReservar, onCancelar, cargando }) {
+export default function ClaseList({ clases, misReservas = [], onReservar, onCancelar, onEditar, onCancelarClase, cargando }) {
   if (!clases.length) {
     return (
       <div className="empty-state">
@@ -29,6 +29,8 @@ export default function ClaseList({ clases, misReservas = [], onReservar, onCanc
           reservaId={reservaMap[clase.id] ?? null}
           onReservar={onReservar}
           onCancelar={onCancelar}
+          onEditar={onEditar}
+          onCancelarClase={onCancelarClase}
           cargando={cargando}
         />
       ))}
