@@ -1,4 +1,5 @@
 const Usuario = require('../models/Usuario');
+const { query } = require('../config/database');
 const { comparePassword } = require('../utils/bcrypt.utils');
 const { generateToken, buildTokenPayload } = require('../utils/jwt.utils');
 const { sendSuccess, sendBadRequest, sendUnauthorized, sendError } = require('../utils/response.utils');
@@ -55,16 +56,45 @@ const login = async (req, res, next) => {
 
     // Login exitoso: resetear intentos y generar token
     await Usuario.resetFailedAttempts(usuario.id);
-    const payload = buildTokenPayload(usuario);
+
+    // Buscar socio y membresía si el rol es socio
+    let socioData = null;
+    let membresiaData = null;
+    if (usuario.rol === 'socio') {
+      const socioQuery = await query('SELECT * FROM socios WHERE email = $1', [usuario.email]);
+      if (socioQuery.rows.length > 0) {
+        socioData = socioQuery.rows[0];
+        // Buscar membresía activa
+        const memQuery = await query(
+          `SELECT m.*, p.nombre AS plan_nombre
+           FROM membresias m
+           JOIN planes p ON p.id = m.plan_id
+           WHERE m.socio_id = $1 AND m.estado = 'activa'
+           LIMIT 1`,
+          [socioData.id]
+        );
+        if (memQuery.rows.length > 0) {
+          membresiaData = {
+            id: memQuery.rows[0].id,
+            planNombre: memQuery.rows[0].plan_nombre,
+            estado: memQuery.rows[0].estado,
+            fechaFin: memQuery.rows[0].fecha_fin,
+          };
+        }
+      }
+    }
+
+    const payload = buildTokenPayload(usuario, socioData?.id);
     const token = generateToken(payload);
 
     return sendSuccess(res, 'Inicio de sesión exitoso.', {
       token,
       usuario: {
-        id: usuario.id,
+        id: socioData ? socioData.id : usuario.id,
         nombre: usuario.nombre,
         email: usuario.email,
         rol: usuario.rol,
+        ...(membresiaData ? { membresia: membresiaData } : {}),
       },
     });
   } catch (err) {
@@ -87,9 +117,46 @@ const logout = async (req, res) => {
  */
 const me = async (req, res, next) => {
   try {
-    const usuario = await Usuario.findById(req.usuario.id);
+    const usuarioId = req.usuario.usuarioId || req.usuario.id;
+    const usuario = await Usuario.findById(usuarioId);
     if (!usuario) return sendUnauthorized(res, 'Usuario no encontrado.');
-    return sendSuccess(res, 'Datos del usuario autenticado.', { usuario });
+
+    // Buscar socio y membresía si el rol es socio
+    let socioData = null;
+    let membresiaData = null;
+    if (usuario.rol === 'socio') {
+      const socioQuery = await query('SELECT * FROM socios WHERE email = $1', [usuario.email]);
+      if (socioQuery.rows.length > 0) {
+        socioData = socioQuery.rows[0];
+        // Buscar membresía activa
+        const memQuery = await query(
+          `SELECT m.*, p.nombre AS plan_nombre
+           FROM membresias m
+           JOIN planes p ON p.id = m.plan_id
+           WHERE m.socio_id = $1 AND m.estado = 'activa'
+           LIMIT 1`,
+          [socioData.id]
+        );
+        if (memQuery.rows.length > 0) {
+          membresiaData = {
+            id: memQuery.rows[0].id,
+            planNombre: memQuery.rows[0].plan_nombre,
+            estado: memQuery.rows[0].estado,
+            fechaFin: memQuery.rows[0].fecha_fin,
+          };
+        }
+      }
+    }
+
+    return sendSuccess(res, 'Datos del usuario autenticado.', {
+      usuario: {
+        id: socioData ? socioData.id : usuario.id,
+        nombre: usuario.nombre,
+        email: usuario.email,
+        rol: usuario.rol,
+        ...(membresiaData ? { membresia: membresiaData } : {}),
+      },
+    });
   } catch (err) {
     next(err);
   }

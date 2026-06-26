@@ -6,7 +6,8 @@
 INSERT INTO usuarios (nombre, email, password_hash, rol) VALUES
   ('Admin OLYMPUS',       'admin@olympuscore.com',        '$2a$10$ErpoAe3Os/b7IZYI1q/qVeB.wV86hu6rLPJzvxnuY97RWpBsvYmPK', 'administrador'),
   ('Maria Recepcion',     'recepcion@olympuscore.com',    '$2a$10$ErpoAe3Os/b7IZYI1q/qVeB.wV86hu6rLPJzvxnuY97RWpBsvYmPK', 'recepcionista'),
-  ('Carlos Entrenador',   'entrenador@olympuscore.com',   '$2a$10$ErpoAe3Os/b7IZYI1q/qVeB.wV86hu6rLPJzvxnuY97RWpBsvYmPK', 'entrenador')
+  ('Carlos Entrenador',   'entrenador@olympuscore.com',   '$2a$10$ErpoAe3Os/b7IZYI1q/qVeB.wV86hu6rLPJzvxnuY97RWpBsvYmPK', 'entrenador'),
+  ('Juan Pérez Demo',     'socio@demo.com',               '$2a$10$ErpoAe3Os/b7IZYI1q/qVeB.wV86hu6rLPJzvxnuY97RWpBsvYmPK', 'socio')
 ON CONFLICT (email) DO NOTHING;
 
 -- Socio de demostración

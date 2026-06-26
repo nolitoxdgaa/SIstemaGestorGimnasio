@@ -27,8 +27,9 @@ const verifyToken = (token) => {
  * @param {Object} usuario - Objeto usuario de la BD.
  * @returns {Object} Payload listo para firmar.
  */
-const buildTokenPayload = (usuario) => ({
-  id: usuario.id,
+const buildTokenPayload = (usuario, socioId = null) => ({
+  id: socioId || usuario.id,
+  usuarioId: usuario.id,
   rol: usuario.rol,
   nombre: usuario.nombre,
 });

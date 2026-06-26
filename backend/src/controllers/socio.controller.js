@@ -1,4 +1,5 @@
 const Socio = require('../models/Socio');
+const Usuario = require('../models/Usuario');
 const { generateQRCode } = require('../services/qr.service');
 const {
   sendSuccess, sendCreated, sendNotFound, sendBadRequest, sendConflict,
@@ -58,7 +59,20 @@ const createSocio = async (req, res, next) => {
     const existente = await Socio.findByDni(dni);
     if (existente) return sendConflict(res, 'Ya existe un socio con ese DNI.', 'DNI_ALREADY_EXISTS');
 
+    // Email duplicado
+    const usuarioExistente = await Usuario.findByEmail(email);
+    if (usuarioExistente) return sendConflict(res, 'Ya existe un usuario registrado con ese email.', 'EMAIL_ALREADY_EXISTS');
+
     const socio = await Socio.create({ nombre, apellido, dni, email, telefono, fechaNacimiento });
+
+    // Crear cuenta de usuario para el socio con contraseña por defecto Demo1234
+    await Usuario.create({
+      nombre: `${nombre} ${apellido}`,
+      email,
+      password: 'Demo1234',
+      rol: 'socio',
+    });
+
     const codigoQR = await generateQRCode(socio.id);
 
     return sendCreated(res, 'Socio registrado exitosamente.', { socio, codigoQR });

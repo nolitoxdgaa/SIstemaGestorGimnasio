@@ -104,7 +104,7 @@ export default function LoginPage() {
 
         <div className="auth-divider" />
         <div className="auth-footer">
-          ¿No tienes cuenta? <a href="mailto:admin@olympuscore.com">Contact Administrator</a>
+          ¿No tienes cuenta? <a href="#admin" onClick={(e) => { e.preventDefault(); alert('Para registrarte como socio y obtener tus credenciales de acceso, por favor acércate a la recepción del gimnasio o contacta al administrador en: admin@olympuscore.com'); }}>Contact Administrator</a>
         </div>
       </div>
     </div>
