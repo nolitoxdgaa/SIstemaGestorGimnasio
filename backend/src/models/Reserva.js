@@ -91,6 +91,21 @@ const Reserva = {
    * Crea una reserva. Debe llamarse dentro de una transacción.
    */
   create: async (socioId, claseId, client) => {
+    // Si ya existe una fila (incluso cancelada), la reutilizamos actualizando su estado a confirmada
+    const existRes = await client.query(
+      `SELECT id, estado FROM reservas WHERE socio_id = $1 AND clase_id = $2`,
+      [socioId, claseId]
+    );
+    if (existRes.rows.length > 0) {
+      const row = existRes.rows[0];
+      if (row.estado === 'cancelada') {
+        const updateRes = await client.query(
+          `UPDATE reservas SET estado = 'confirmada', creada_en = NOW() WHERE id = $1 RETURNING *`,
+          [row.id]
+        );
+        return updateRes.rows[0];
+      }
+    }
     const result = await client.query(
       `INSERT INTO reservas (socio_id, clase_id) VALUES ($1, $2) RETURNING *`,
       [socioId, claseId]

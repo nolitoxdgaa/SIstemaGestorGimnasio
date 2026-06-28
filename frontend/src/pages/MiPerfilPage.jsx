@@ -31,7 +31,15 @@ export default function MiPerfilPage() {
 
       if (qrRes.status === 'fulfilled')  setQr(qrRes.value.data.data);
       if (stRes.status === 'fulfilled' && stRes.value.success) setStrikes(stRes.value.data);
-      if (rRes.status === 'fulfilled')   setReservas(rRes.value.data.data.reservas ?? []);
+      if (rRes.status === 'fulfilled') {
+        const rawReservas = rRes.value.data.data.reservas ?? [];
+        const mapped = rawReservas.map(r => ({
+          ...r,
+          claseNombre: r.claseNombre || r.clase_nombre,
+          claseHora:   r.claseHora || r.clase_hora,
+        }));
+        setReservas(mapped);
+      }
     } finally {
       setLoading(false);
     }
