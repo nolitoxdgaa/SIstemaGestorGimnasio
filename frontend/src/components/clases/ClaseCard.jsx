@@ -17,11 +17,12 @@ export default function ClaseCard({ clase, onReservar, onCancelar, onEditar, onC
   const duracionMinutos = clase.duracion_minutos !== undefined ? clase.duracion_minutos : clase.duracionMinutos;
   const fechaHoraStr = clase.fecha_hora || clase.fechaHora;
 
+  const fechaHora = new Date(fechaHoraStr);
+  const esPasada = fechaHora <= new Date();
   const llena    = aforoDisponible === 0;
   const cancelada = clase.estado === 'cancelada';
   const tengoReserva = !!reservaId;
 
-  const fechaHora = new Date(fechaHoraStr);
   const fecha = fechaHora.toLocaleDateString('es-PE', { weekday: 'short', day: '2-digit', month: 'short' });
   const hora  = fechaHora.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
 
@@ -42,6 +43,8 @@ export default function ClaseCard({ clase, onReservar, onCancelar, onEditar, onC
         </div>
         {cancelada ? (
           <span className="badge badge-danger">Cancelada</span>
+        ) : esPasada ? (
+          <span className="badge" style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: 'var(--text-muted)' }}>Finalizada</span>
         ) : llena ? (
           <span className="badge badge-warning">Sin cupos</span>
         ) : (
@@ -68,7 +71,7 @@ export default function ClaseCard({ clase, onReservar, onCancelar, onEditar, onC
       <AforoIndicator disponible={aforoDisponible} maximo={aforoMaximo} />
 
       {/* Acciones */}
-      {!cancelada && (onReservar || onCancelar || onEditar || onCancelarClase) && (
+      {!cancelada && !esPasada && (onReservar || onCancelar || onEditar || onCancelarClase) && (
         <div style={{ marginTop: '0.25rem', display: 'flex', gap: '0.5rem' }}>
           {tengoReserva && onCancelar && (
             <button

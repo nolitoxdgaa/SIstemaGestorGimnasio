@@ -14,7 +14,13 @@ const ClaseGrupal = {
     let idx = 1;
 
     if (tipo)  { condiciones.push(`cg.tipo = $${idx}`);                     params.push(tipo);  idx++; }
-    if (fecha) { condiciones.push(`DATE(cg.fecha_hora) = $${idx}`);          params.push(fecha); idx++; }
+    if (fecha) { 
+      condiciones.push(`DATE(cg.fecha_hora) = $${idx}`);          
+      params.push(fecha); 
+      idx++; 
+    } else {
+      condiciones.push(`cg.fecha_hora >= CURRENT_DATE`);
+    }
 
     const where = 'WHERE ' + condiciones.join(' AND ');
 
