@@ -28,7 +28,31 @@ El MVP1 cubre los módulos esenciales que resuelven los **pain points** crítico
 
 ---
 
-## 3. Módulos funcionales del MVP1
+## 3. Matriz de Trazabilidad de Requisitos (RF)
+
+Esta matriz asocia los Requisitos Funcionales (RF) identificados en el análisis del sistema con su nivel de prioridad (bajo la metodología MoSCoW) y su estado de implementación dentro de este entregable MVP1.
+
+| Código RF | Descripción del Requisito | Prioridad | Presencia en MVP1 | Módulo/Detalle |
+|---|---|---|---|---|
+| **RF-01** | Registro de datos obligatorios de socios | **Must Have** (Alta) | **Sí** | Módulo 3 (Socios) |
+| **RF-02** | Autenticación y control de acceso por roles | **Must Have** (Alta) | **Sí** | Módulo 1 (Autenticación) |
+| **RF-03** | Generación de códigos QR de acceso para socios | **Must Have** (Alta) | **Sí** | Módulo 6 (Acceso QR) / Módulo 10 |
+| **RF-04** | Validación de acceso físico por código QR | **Must Have** (Alta) | **Sí** | Módulo 6 (Acceso QR) |
+| **RF-05** | Bitácora / Log de accesos al gimnasio | **Should Have** (Media) | **Sí** | Módulo 6 (Registro en Backend y UI de accesos recientes) |
+| **RF-06** | Catálogo y programación de clases grupales | **Must Have** (Alta) | **Sí** | Módulo 7 (Clases Grupales) |
+| **RF-07** | Control y registro de asistencia/inasistencia por Admin | **Must Have** (Alta) | **Sí** | Módulo 8 (Reservas Admin) |
+| **RF-08** | Reserva y cancelación de clases por parte del Socio | **Must Have** (Alta) | **Sí** | Módulo 9 (Mis Reservas) |
+| **RF-09** | Registro de cobros y pagos de membresías | **Must Have** (Alta) | **Sí** | Módulo 4 (Pagos) |
+| **RF-10** | Creación y asignación de rutinas de entrenamiento | **Could Have** (Baja) | **No** | Excluido *(v1.1)* |
+| **RF-11** | Registro de progreso físico y medidas corporales | **Could Have** (Baja) | **No** | Excluido *(v1.1)* |
+| **RF-12** | Registro de ficha médica y contraindicaciones | **Should Have** (Media) | **No** | Excluido *(v1.1)* |
+| **RF-13** | Dashboard de métricas financieras y operativas | **Should Have** (Media) | **Sí** | Módulo 2 (Dashboard Admin) |
+| **RF-14** | Activación y renovación automática de membresía | **Must Have** (Alta) | **Sí** | Módulo 4 (Pagos) / Módulo 5 |
+| **RF-15** | Historial de pagos y estado de membresía del socio | **Should Have** (Media) | **Sí** | Módulo 4 (Pagos) / Módulo 10 |
+
+---
+
+## 4. Módulos funcionales del MVP1
 
 El MVP1 contempla **10 módulos funcionales** distribuidos entre el panel administrativo y la vista del socio.
 
@@ -232,7 +256,7 @@ El MVP1 contempla **10 módulos funcionales** distribuidos entre el panel admini
 
 ---
 
-## 4. Planes de membresía disponibles
+## 5. Planes de membresía disponibles
 
 El sistema maneja un catálogo cerrado de planes (RN-05). No se pueden registrar precios fuera de este catálogo.
 
@@ -245,7 +269,7 @@ El sistema maneja un catálogo cerrado de planes (RN-05). No se pueden registrar
 
 ---
 
-## 5. Reglas de negocio del MVP1
+## 6. Reglas de negocio del MVP1
 
 | ID | Regla | Módulos que la aplican |
 |---|---|---|
@@ -259,7 +283,7 @@ El sistema maneja un catálogo cerrado de planes (RN-05). No se pueden registrar
 
 ---
 
-## 6. Permisos por módulo y rol
+## 7. Permisos por módulo y rol
 
 | Módulo | Admin | Recepcionista | Entrenador | Socio |
 |---|---|---|---|---|
@@ -275,7 +299,7 @@ El sistema maneja un catálogo cerrado de planes (RN-05). No se pueden registrar
 
 ---
 
-## 7. Flujos funcionales principales
+## 8. Flujos funcionales principales
 
 Estos son los flujos de extremo a extremo que el MVP1 es capaz de ejecutar de forma completa:
 
@@ -311,7 +335,7 @@ Estos son los flujos de extremo a extremo que el MVP1 es capaz de ejecutar de fo
 
 ---
 
-## 8. Funciones excluidas del MVP1
+## 9. Funciones excluidas del MVP1
 
 Las siguientes funcionalidades están fuera del alcance del MVP1 por complejidad o dependencias, pero serán implementadas en versiones posteriores:
 
@@ -326,7 +350,7 @@ Las siguientes funcionalidades están fuera del alcance del MVP1 por complejidad
 
 ---
 
-## 9. Endpoints de la API (resumen)
+## 10. Endpoints de la API (resumen)
 
 La comunicación entre frontend y backend sigue el contrato definido en `API_CONTRACT.md`. El backend expone una API REST bajo el prefijo `/api/v1`.
 
@@ -345,7 +369,7 @@ La comunicación entre frontend y backend sigue el contrato definido en `API_CON
 
 ---
 
-## 10. Tecnologías utilizadas
+## 11. Tecnologías utilizadas
 
 | Capa | Tecnología |
 |---|---|
