@@ -36,7 +36,15 @@ export default function ReservasPage() {
       if (filtroEstado) params.estado = filtroEstado;
       if (filtroFecha)  params.fecha  = filtroFecha;
       const { data } = await reservasService.getAll({ params });
-      setReservas(data.data.reservas ?? []);
+      const raw = data.data.reservas ?? [];
+      const mapped = raw.map(r => ({
+        ...r,
+        socioNombre: r.socioNombre || (r.socio_nombre ? `${r.socio_nombre} ${r.socio_apellido || ''}`.trim() : ''),
+        claseNombre: r.claseNombre || r.clase_nombre,
+        claseHora:   r.claseHora || r.clase_hora,
+        creadaEn:    r.creadaEn || r.creada_en || r.creado_en,
+      }));
+      setReservas(mapped);
     } catch {
       showToast('Error al cargar las reservas.', 'error');
     } finally {
