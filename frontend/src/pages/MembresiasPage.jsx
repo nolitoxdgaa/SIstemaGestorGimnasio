@@ -11,7 +11,7 @@ export default function MembresiasPage() {
   const cargar = useCallback(async () => {
     setLoading(true);
     try {
-      const { data } = await socioService.getAll({ estado: 'activo', limite: 1000 });
+      const { data } = await socioService.getAll({ limite: 1000 });
       setSocios(data.data.socios ?? []);
     } catch { /* handler */ }
     finally { setLoading(false); }
