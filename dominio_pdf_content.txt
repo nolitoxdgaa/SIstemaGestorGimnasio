@@ -1,0 +1,347 @@
+﻿=== PAGINA 1 ===
+UNIVERSIDAD NACIONAL MAYOR DE SAN MARCOS
+FACULTAD DE SISTEMAS E INFORM├üTICA
+TAREA SEMANA #11
+ASIGNATURA
+Ingenier├¡a de requisitos
+DOCENTE
+RODR├ìGUEZ RODR├ìGUEZ , CIRO
+ALUMNO:
+Cordova Guerra, Josue Rodrigo
+2026
+
+=== PAGINA 2 ===
+1. Identificaci├│n y An├ílisis de Requisitos de Dominio
+1.1. Descripci├│n General del Dominio
+El dominio corresponde a la gesti├│n operativa y comercial de un gimnasio de mediano tama├▒o denominado
+OLYMPUS CORE, con aproximadamente 500 socios activos. El negocio se articula en torno a cuatro
+procesos fundamentales: (1) administraci├│n de membres├¡as y accesos, (2) reserva y control de clases
+grupales, (3) seguimiento personalizado de rutinas de entrenamiento y (4) control financiero de pagos y
+renovaciones.
+Actualmente estos procesos se gestionan de forma manual (Excel compartido, WhatsApp, cuadernos
+f├¡sicos), generando p├®rdidas econ├│micas por accesos con membres├¡a vencida, inconsistencia de datos y baja
+satisfacci├│n de los socios. El dominio incluye reglas de negocio estrictas como topes de aforo por clase,
+pol├¡ticas de penalizaci├│n por inasistencia y cat├ílogos cerrados de planes.
+1.2. Fuentes de Informaci├│n Utilizadas
+De acuerdo con la metodolog├¡a de Ingenier├¡a de Requisitos, se emplearon las siguientes fuentes para
+identificar los requisitos del dominio:
+ÔÇó Entrevistas semiestructuradas con el Due├▒o/Administrador y los Entrenadores.
+ÔÇó Observaci├│n directa (shadowing) en recepci├│n durante horas pico.
+ÔÇó An├ílisis del archivo Excel de gesti├│n de socios (documento existente).
+ÔÇó Cuestionario digital enviado a los 500 socios v├¡a WhatsApp.
+1.3. Actores del Dominio
+A partir del an├ílisis del negocio se identificaron los siguientes actores:
+Actor de Negocio Rol en el Negocio Actor en el Sistema
+Socio / Cliente Consume servicios, reserva clases, A-Socio
+renueva membres├¡a
+Recepcionista Registra socios, cobra pagos, valida A-Recepcionista
+acceso
+Entrenador Asigna rutinas, registra progreso f├¡sico A-Entrenador
+Administrador Controla finanzas, configura planes, A-Administrador
+supervisa el negocio
+Pasarela de Pagos Entidad externa que valida transacciones A-PasarelaPagos (actor externo API)
+financieras
+Lector QR (Hardware) Dispositivo que escanea el c├│digo QR A-LectorQR (actor tecnol├│gico)
+del socio
+1.4. Entidades Principales del Dominio
+Del an├ílisis de los documentos y entrevistas se identificaron las siguientes entidades clave del dominio:
+ÔÇó Socio: Persona registrada con datos personales, ficha m├®dica y membres├¡a asociada.
+ÔÇó Membres├¡a: Contrato de acceso con tipo de plan, fechas de vigencia y estado (activa/vencida).
+ÔÇó Clase Grupal: Actividad (Spinning, CrossFit) con aforo m├íximo, horario y estado.
+ÔÇó Reserva: Relaci├│n entre Socio y Clase Grupal con registro de asistencia/inasistencia.
+ÔÇó Penalizaci├│n: Acumulaci├│n de strikes por inasistencia que bloquea temporalmente al socio.
+
+=== PAGINA 3 ===
+ÔÇó Rutina: Plantilla de entrenamiento asignada por el Entrenador al Socio.
+ÔÇó Progreso F├¡sico: Registro hist├│rico de pesos y observaciones del socio.
+ÔÇó Pago: Transacci├│n financiera asociada a la renovaci├│n de membres├¡a.
+1.5. Reglas de Negocio Identificadas
+Las siguientes reglas son inherentes al dominio y deben incorporarse al sistema:
+ID Regla de Negocio Fuente
+RN-01 Un socio solo puede acceder al gimnasio con membres├¡a Administrador / Observaci├│n
+vigente. Si est├í vencida, el torniquete permanece cerrado. directa
+RN-02 El aforo m├íximo por clase no puede excederse. El sistema Coordinador de clases
+bloquea nuevas reservas cuando el cupo est├í lleno.
+RN-03 Las cancelaciones de reserva solo son permitidas hasta 2 horas Recepci├│n / Entrevista due├▒o
+antes del inicio de la clase.
+RN-04 Tres inasistencias no justificadas en un mes generan el bloqueo Administrador
+temporal de reservas por una semana.
+RN-05 Los precios de los planes son fijos y definidos en cat├ílogo An├ílisis de documento Excel
+cerrado. El cajero no puede modificarlos.
+RN-06 La asignaci├│n de rutinas de entrenamiento requiere que el socio Entrenador / Entrevista
+haya completado previamente su ficha m├®dica digital.
+RN-07 Un socio no puede reservar dos clases en el mismo horario. Reglamento interno
+RN-08 El dashboard gerencial debe mostrar al menos: ingresos diarios, Administrador / Entrevista
+membres├¡as por vencer (pr├│ximos 3 d├¡as) e ├¡ndice de ocupaci├│n
+de clases.
+1.6. Procesos del Negocio Identificados
+El modelado de procesos revelou los siguientes flujos cr├¡ticos del dominio:
+ÔÇó Proceso de control de acceso: Escaneo QR ÔåÆ validaci├│n de membres├¡a ÔåÆ apertura/bloqueo de
+torniquete ÔåÆ registro de log.
+ÔÇó Proceso de reserva de clase grupal: Consulta disponibilidad ÔåÆ validaci├│n membres├¡a y
+penalizaciones ÔåÆ confirmaci├│n ÔåÆ actualizaci├│n de aforo ÔåÆ notificaci├│n.
+ÔÇó Proceso de renovaci├│n de membres├¡a: Identificaci├│n del socio ÔåÆ selecci├│n de plan ÔåÆ
+procesamiento de pago ÔåÆ activaci├│n de membres├¡a ÔåÆ generaci├│n de QR.
+ÔÇó Proceso de seguimiento de entrenamiento: Validaci├│n ficha m├®dica ÔåÆ asignaci├│n de rutina ÔåÆ
+registro peri├│dico de progreso.
+1.7. Diagrama de Casos de Uso ÔÇö Nivel de Negocio
+El siguiente diagrama representa los actores de negocio (con barra '/') y los procesos del negocio antes de la
+automatizaci├│n.
+
+=== PAGINA 4 ===
+1.8. Diagrama de Casos de Uso ÔÇö Nivel de Sistema
+El siguiente diagrama representa los actores del sistema (sin barra '/') y las funcionalidades que el software
+automatizar├í:
+
+=== PAGINA 5 ===
+2. Especificaci├│n de Requisitos de Dominio
+2.1. Requisitos de Dominio
+Los requisitos de dominio capturan el 'qu├®' debe hacer el sistema en relaci├│n con el mundo real del
+gimnasio, independientemente de la tecnolog├¡a utilizada:
+ID Descripci├│n Prioridad Fuente / Stakeholder
+RD-01 El sistema debe verificar la vigencia de la Alta Due├▒o / Observaci├│n directa
+membres├¡a de un socio en tiempo real (< 2
+segundos) para controlar el acceso f├¡sico al
+gimnasio mediante un c├│digo QR din├ímico.
+RD-02 El sistema debe gestionar los planes de Alta An├ílisis de documento Excel
+membres├¡a con cat├ílogo cerrado de precios,
+sin permitir modificaci├│n manual del monto
+por parte del cajero.
+
+=== PAGINA 6 ===
+RD-03 El sistema debe controlar el aforo de las clases Alta Coordinador de clases
+grupales (Spinning, CrossFit) en tiempo real,
+impidiendo reservas cuando el cupo est├® lleno.
+RD-04 El sistema debe aplicar autom├íticamente la Alta Administrador
+pol├¡tica de penalizaci├│n: 1 inasistencia = 1
+strike; 3 strikes en un mes = bloqueo de
+reservas por 7 d├¡as.
+RD-05 El sistema debe requerir que el socio complete Alta Entrenador / Entrevista
+una ficha m├®dica digital (lesiones,
+enfermedades cardiovasculares, objetivo)
+antes de permitir la asignaci├│n de una rutina
+de entrenamiento.
+RD-06 El sistema debe presentar un dashboard Alta Administrador / Entrevista
+gerencial con las siguientes m├®tricas en tiempo
+real: ingresos del d├¡a, membres├¡as por vencer
+en los pr├│ximos 3 d├¡as e ├¡ndice de ocupaci├│n
+de clases.
+RD-07 El sistema debe permitir la cancelaci├│n de Media Recepci├│n
+reservas ├║nicamente hasta 2 horas antes del
+inicio de la clase; fuera de ese margen la
+reserva queda confirmada.
+RD-08 El sistema debe registrar y mantener el Media Entrenador
+historial de progreso f├¡sico del socio (peso
+levantado, fecha, observaciones) para facilitar
+el seguimiento por parte del entrenador.
+RD-09 El sistema debe generar un log de auditor├¡a de Media Administrador
+cada intento de acceso (socio, fecha/hora,
+resultado) para consulta administrativa.
+2.2. Especificaci├│n Formal de un Requisito de Dominio Prioritario
+A continuaci├│n se especifica el requisito de dominio de mayor impacto utilizando la plantilla est├índar:
+Campo Valor
+ID RD-01
+Nombre Control de Acceso F├¡sico mediante C├│digo QR
+Descripci├│n El sistema debe verificar, en tiempo real y en menos de 2 segundos, si el socio que
+intenta ingresar al gimnasio posee una membres├¡a vigente mediante la lectura de un
+c├│digo QR din├ímico. Si la membres├¡a est├í activa, se env├¡a se├▒al de apertura al
+torniquete; si est├í vencida, el torniquete permanece cerrado y se muestra alerta.
+Procedencia Due├▒o/Administrador ÔÇö Hallazgos de entrevista y observaci├│n directa en recepci├│n
+Prioridad Alta ÔÇö impacto econ├│mico directo (p├®rdida de ingresos por accesos indebidos)
+Criterios de aceptaci├│n 1. La validaci├│n completa (QR ÔåÆ BD ÔåÆ torniquete) tarda menos de 2 segundos en
+el 95% de los casos. | 2. Los socios con membres├¡a vencida no pueden abrir el
+torniquete. | 3. Cada intento de acceso queda registrado en el log con socio,
+fecha/hora y resultado. | 4. El sistema distingue membres├¡a activa, vencida y
+bloqueada por penalizaci├│n, mostrando mensajes diferenciados.
+
+=== PAGINA 7 ===
+Dependencias RD-02 (Gesti├│n de planes), RF-03 (Generaci├│n de QR), RF-05 (Bloqueo
+autom├ítico), RNF-01 (Rendimiento < 2 s)
+2.3. Especificaci├│n Formal ÔÇö RD-04
+Campo Valor
+ID RD-04
+Nombre Pol├¡tica Autom├ítica de Penalizaci├│n por Inasistencia
+Descripci├│n Cuando un socio no se presenta a una clase reservada y no la cancela dentro del
+margen permitido (2 horas antes), el sistema registra autom├íticamente 1 strike. Al
+acumular 3 strikes en un per├¡odo de 30 d├¡as, el sistema bloquea la capacidad de
+reservar clases durante 7 d├¡as calendario.
+Procedencia Administrador ÔÇö Entrevista semiestructurada
+Prioridad Alta
+Criterios de aceptaci├│n 1. El sistema detecta la inasistencia autom├íticamente al finalizar la hora de la clase.
+| 2. El contador de strikes se reinicia cada 30 d├¡as. | 3. Al alcanzar 3 strikes, el
+sistema muestra la fecha exacta de desbloqueo. | 4. El administrador puede remover
+un strike manualmente con justificaci├│n registrada.
+Dependencias RD-03 (Control de aforo), RF-06 (Reserva de clases), RF-08 (Penalizaci├│n)
+2.4. Diagrama de Clases del Dominio
+El siguiente diagrama representa las entidades del dominio con sus atributos, m├®todos y relaciones:
+
+=== PAGINA 8 ===
+2.5. Relaciones y Dependencias entre Requisitos
+La siguiente tabla muestra c├│mo los Requisitos de Dominio fundamentan los Requisitos Funcionales y No
+Funcionales del sistema:
+RD Nombre RF / RNF que fundamenta
+
+=== PAGINA 9 ===
+RD-01 Control de Acceso QR RF-03, RF-04, RF-05, RNF-01 (< 2 s)
+RD-02 Cat├ílogo cerrado de planes RF-09, RF-14
+RD-03 Control de aforo en tiempo real RF-06, RF-07, RF-10
+RD-04 Pol├¡tica de penalizaci├│n autom├ítica RF-08, RF-06
+RD-05 Ficha m├®dica obligatoria RF-11, RF-01
+RD-06 Dashboard gerencial RF-13, RNF-02
+RD-07 Pol├¡tica de cancelaci├│n (2 h) RF-06, RF-08
+RD-08 Historial de progreso f├¡sico RF-12
+RD-09 Log de auditor├¡a de accesos RNF-14 (Integridad de datos)
+2.6. Glosario de T├®rminos del Dominio
+T├®rmino Definici├│n en el contexto del dominio
+Membres├¡a Contrato de acceso entre el gimnasio y el socio que habilita el uso de las instalaciones
+durante un per├¡odo determinado (mensual/trimestral/anual).
+Socio / Afiliado Persona registrada en el sistema con un plan de membres├¡a activo o hist├│rico.
+Strike Penalizaci├│n unitaria aplicada por inasistencia injustificada a una clase reservada. La
+acumulaci├│n de 3 genera bloqueo temporal.
+Aforo Capacidad m├íxima de participantes permitidos en una clase grupal. Definida por el
+coordinador para cada tipo de clase.
+C├│digo QR Din├ímico C├│digo de barras bidimensional ├║nico por socio, regenerado peri├│dicamente, que
+contiene su token de identificaci├│n para el control de acceso.
+Clase Grupal Actividad deportiva estructurada con cupo limitado (Spinning, CrossFit) que los
+socios pueden reservar con anticipaci├│n.
+Rutina de Plantilla de ejercicios personalizada asignada por el entrenador al socio seg├║n sus
+Entrenamiento objetivos y ficha m├®dica.
+Ficha M├®dica Digital Formulario electr├│nico que registra lesiones previas, enfermedades cardiovasculares
+y objetivo de entrenamiento del socio. Requisito previo para la asignaci├│n de rutinas.
+Progreso F├¡sico Registro hist├│rico de m├®tricas de rendimiento del socio (pesos levantados, fechas,
+observaciones del entrenador).
+Torniquete Hardware de control de acceso f├¡sico que recibe se├▒al del sistema (abrir / mantener
+cerrado) seg├║n el resultado de la validaci├│n de membres├¡a.
+Dashboard Gerencial Panel de control administrativo con m├®tricas en tiempo real sobre ingresos,
+membres├¡as y ocupaci├│n de clases.
+
+=== PAGINA 10 ===
+3. Validaci├│n de Requisitos de Dominio
+3.1. Plan de Revisi├│n
+Siguiendo el enfoque de validaci├│n por stakeholders y equipos multidisciplinarios, se propone la siguiente
+agenda para una sesi├│n de revisi├│n de 2 horas:
+Bloque Actividad Artefactos revisados Participantes
+0:00ÔÇô0:20 Presentaci├│n del dominio y Descripci├│n general del dominio Todos
+objetivos (secci├│n 1.1)
+0:20ÔÇô0:50 Revisi├│n de Reglas de Tabla de reglas de negocio, diagrama Due├▒o, Recepcionista,
+Negocio (RN-01 a RN-08) de clases Entrenador
+0:50ÔÇô1:20 Revisi├│n de Requisitos de Tabla de RD, especificaciones Todos + Analista t├®cnico
+Dominio (RD-01 a RD-09) formales RD-01 y RD-04
+1:20ÔÇô1:40 Validaci├│n de diagramas DCU negocio/sistema, diagrama de Analista, Desarrollador
+UML clases, swimlanes, secuencia l├¡der
+1:40ÔÇô2:00 Acuerdos, acta y pr├│ximos Lista de observaciones y acta de Todos
+pasos validaci├│n
+3.2. Preguntas de Validaci├│n por Stakeholder
+3.2.1. Due├▒o / Administrador
+ÔÇó RD-01: ┬┐El tiempo de 2 segundos para la validaci├│n de acceso es suficiente para la operaci├│n en
+hora pico con filas de hasta 20 personas?
+ÔÇó RD-06: ┬┐El dashboard con las 3 m├®tricas propuestas (ingresos, vencimientos, ocupaci├│n) cubre su
+necesidad de control matutino o requiere alguna adicional?
+ÔÇó RD-04: ┬┐El per├¡odo de c├ílculo de strikes (30 d├¡as) y el bloqueo de 7 d├¡as son las m├®tricas correctas,
+o desea ajustarlos?
+3.2.2. Recepcionista
+ÔÇó RD-02: ┬┐El cat├ílogo cerrado de planes le impide realizar alguna excepci├│n que actualmente
+necesita aplicar (descuentos, planes especiales)?
+ÔÇó RD-07: ┬┐La regla de cancelaci├│n hasta 2 horas antes genera alg├║n conflicto con situaciones
+frecuentes que enfrenta en la recepci├│n?
+ÔÇó RD-01: ┬┐El proceso de validaci├│n QR requiere alg├║n paso manual de respaldo cuando el sistema no
+est├í disponible?
+3.2.3. Entrenador
+ÔÇó RD-05: ┬┐Los campos de la ficha m├®dica digital (lesiones, enfermedades cardiovasculares, objetivo)
+son suficientes o falta alguna informaci├│n cl├¡nica relevante?
+ÔÇó RD-08: ┬┐El registro de progreso f├¡sico con pesos y observaciones cubre su necesidad de
+seguimiento, o requiere m├®tricas adicionales (talla, IMC, porcentaje de grasa)?
+ÔÇó ┬┐Las plantillas de rutina pre-armadas necesitan alguna categorizaci├│n especial (nivel, tipo de
+objetivo)?
+3.3. An├ílisis de Hallazgos ÔÇö Simulaci├│n de Revisi├│n
+Se simulan los hallazgos sobre los requisitos de dominio clave, identificando problemas potenciales:
+
+=== PAGINA 11 ===
+ID Problema identificado Stakeholder que objeta / Motivo Mejora propuesta
+RD-04 La regla de 3 strikes en 30 Entrenador: los socios con Agregar mecanismo de
+d├¡as no contempla lesiones no deben ser penalizados justificaci├│n de inasistencia con
+inasistencias por causas del mismo modo. validaci├│n del entrenador o
+m├®dicas justificadas. m├®dico.
+RD-02 El cat├ílogo cerrado de Administrador: existen convenios Incorporar un m├│dulo de
+precios no permite aplicar con empresas que requieren promociones/convenios
+descuentos corporativos o precios diferenciados. administrable solo por el
+promociones puntuales. Administrador.
+RD-06 El dashboard no especifica el Desarrollador l├¡der: sin per├¡odo Especificar que el dashboard se
+per├¡odo de actualizaci├│n de definido no se puede garantizar actualiza cada 60 segundos y
+las m├®tricas ni si opera SLA de disponibilidad. muestra datos en cach├® si hay
+offline. falla.
+3.4. Validaci├│n mediante Prototipos ÔÇö Flujo de Reserva de Clase
+Para validar el flujo de reserva de clase grupal (RD-03, RD-04, RD-07) se propone un prototipo de baja
+fidelidad con las siguientes pantallas:
+ÔÇó Pantalla 1 ÔÇö Lista de clases: Muestra clases disponibles con horario, tipo, aforo restante y estado
+(disponible/llena).
+ÔÇó Pantalla 2 ÔÇö Detalle de clase: Muestra instructor, duraci├│n, descripci├│n y bot├│n 'Reservar'.
+ÔÇó Pantalla 3 ÔÇö Confirmaci├│n: Resumen de la reserva con advertencia de la pol├¡tica de cancelaci├│n (2
+h) y de strikes.
+ÔÇó Pantalla 4 ÔÇö Estado de reservas: Lista de reservas activas del socio con opci├│n de cancelar (solo si
+aplica el margen).
+ÔÇó Pantalla 5 ÔÇö Alerta de penalizaci├│n: Pantalla modal que bloquea la reserva y muestra strikes
+acumulados y fecha de desbloqueo.
+3.5. Criterios de ├ëxito de la Validaci├│n
+Criterio Descripci├│n M├®trica de aceptaci├│n
+Correcci├│n Los RD reflejan fielmente las reglas del negocio real del 0 objecciones cr├¡ticas de parte del
+gimnasio. Due├▒o
+Completitud No quedan procesos de negocio cr├¡ticos sin cubrir. Cobertura ÔëÑ 90% de los procesos
+mapeados
+Viabilidad Los RD son t├®cnicamente implementables en el plazo del Validaci├│n del desarrollador l├¡der
+proyecto. sin bloqueos
+Trazabilidad Cada RD est├í asociado a al menos un RF o RNF en la 100% de RD con dependencia
+matriz. mapeada
+3.6. Acta de Validaci├│n
+Fecha: 12/06/2026 | Sesi├│n de revisi├│n de RD ÔÇö OLYMPUS CORE | Duraci├│n: 2 horas
+Participantes: Due├▒o/Administrador, Recepcionista (representante), Entrenador en Jefe, Analista de
+Requisitos (Grupo 8).
+Acuerdos alcanzados:
+
+=== PAGINA 12 ===
+ÔÇó RD-01 a RD-03 y RD-06: Aprobados sin modificaciones. El Administrador confirm├│ que las
+m├®tricas y tiempos propuestos son adecuados.
+ÔÇó RD-04 (Penalizaciones): Modificaci├│n acordada ÔÇö agregar mecanismo de justificaci├│n de
+inasistencia m├®dica. Se incorpora como RD-04 versi├│n 1.1 en la pr├│xima iteraci├│n.
+ÔÇó RD-02 (Cat├ílogo de precios): Se aprueba con adici├│n de m├│dulo de promociones. Se crea nuevo
+requisito derivado RD-10 para gesti├│n de convenios corporativos.
+Desacuerdos pendientes:
+ÔÇó RD-08: El entrenador solicita incluir m├®tricas de IMC y porcentaje de grasa. El equipo evaluar├í
+viabilidad t├®cnica en la pr├│xima sesi├│n.
+Pr├│ximos pasos: (1) Actualizar RD-04 con mecanismo de justificaci├│n. (2) Especificar RD-10 (convenios).
+(3) Presentar prototipo de baja fidelidad del flujo de reserva en 2 semanas.
+
+=== PAGINA 13 ===
+4. Diagramas Din├ímicos del Dominio
+4.1. Diagrama de Actividades con Swimlanes ÔÇö Reserva de Clase Grupal
+Este diagrama modela el proceso de reserva de clase grupal integrando las validaciones de los RD-03,
+RD-04 y RD-07:
+4.2. Diagrama de Secuencia ÔÇö Validaci├│n de Acceso QR (PlantUML)
+
+=== PAGINA 14 ===
+Este diagrama muestra la interacci├│n entre los componentes del sistema durante el proceso de control de
+acceso f├¡sico (RD-01):
+5. Gesti├│n de Cambios en los Requisitos de Dominio
+5.1. Proceso Formal de Solicitud de Cambio
+Cualquier modificaci├│n a los requisitos de dominio debe seguir el siguiente proceso controlado:
+ÔÇó Identificaci├│n: El stakeholder documenta el cambio en el formulario de Solicitud de Cambio (SC)
+con ID ├║nico.
+ÔÇó Evaluaci├│n de impacto: El analista eval├║a qu├® RD, RF, RNF y artefactos se ven afectados.
+ÔÇó Priorizaci├│n: El cambio se clasifica como Alta/Media/Baja seg├║n impacto en negocio y riesgo
+t├®cnico.
+ÔÇó Aprobaci├│n: El Due├▒o y el Analista l├¡der aprueban o rechazan el cambio con justificaci├│n
+documentada.
+ÔÇó Implementaci├│n y revalidaci├│n: El cambio aprobado se incorpora en la l├¡nea base y se revalida con
+los stakeholders afectados.
+5.2. Registro de Cambios Identificados
+SC-ID Cambio solicitado RD afectado Prioridad Decisi├│n
+SC-01 Agregar justificaci├│n de RD-04 Alta Aprobado ÔÇö incorporar en
+inasistencia m├®dica v1.1
+SC-02 M├│dulo de promociones y RD-02 Media Aprobado ÔÇö nuevo RD-10
+convenios corporativos en v1.1
+SC-03 Incluir IMC y % grasa en RD-08 Baja Pendiente ÔÇö evaluaci├│n
+progreso f├¡sico t├®cnica v2.0
+SC-04 Notificaciones RD-03, RD-04 Media Diferido a versi├│n 2.0 del
+autom├íticas por sistema
+WhatsApp
+
