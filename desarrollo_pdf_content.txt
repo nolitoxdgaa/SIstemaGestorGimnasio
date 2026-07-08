@@ -1,0 +1,446 @@
+﻿=== PAGINA 1 ===
+1
+UNIVERSIDAD NACIONAL MAYOR DE SAN MARCOS
+FACULTAD DE SISTEMAS E INFORM├üTICA
+REQUISITOS DE DESARROLLO
+ASIGNATURA
+Ingenier├¡a de Requisitos
+DOCENTE
+Rodr├¡guez Rodr├¡guez, Ciro
+INTEGRANTES GRUPO 5:
+Alva Chacon, Jose Benjamin 24200045
+Cordova Guerra, Josue Rodrigo 24200155
+Sandoval Dominguez, Erick Marco 24200172
+Melendez Bustamante, Alvaro Mathias 24200166
+2026
+
+=== PAGINA 2 ===
+2
+1. Introducci├│n.......................................................................................................................3
+Durante la fase de identificaci├│n y an├ílisis de requisitos de desarrollo del proyecto
+OLYMPUS CORE, el equipo evalu├│ las restricciones t├®cnicas, metodol├│gicas y
+operativas necesarias para garantizar la construcci├│n de una plataforma robusta,
+segura, escalable y alineada a las necesidades del gimnasio..........................................3
+El an├ílisis permiti├│ identificar factores cr├¡ticos relacionados con concurrencia,
+validaci├│n de acceso mediante QR, rendimiento del sistema, seguridad de la
+informaci├│n y compatibilidad tecnol├│gica. Asimismo, se definieron estrategias de
+mitigaci├│n de riesgos y mecanismos de validaci├│n t├®cnica orientados a garantizar la
+calidad del producto final......................................................................................................3
+El desarrollo del proyecto se basa en metodolog├¡as ├ígiles y herramientas modernas
+de ingenier├¡a de software, priorizando la construcci├│n incremental del MVP, la
+trazabilidad de cambios y la validaci├│n continua de requisitos.......................................3
+2. Identificaci├│n y An├ílisis de Requisitos de Desarrollo:..................................................3
+1. Mapeo de Restricciones del Proyecto............................................................................3
+1.2. An├ílisis de Riesgos.....................................................................................................5
+3. Especificaci├│n de requisitos de desarrollo.....................................................................6
+3.1. Requisitos de Desarrollo.............................................................................................6
+3.2. Requisito T├®cnico TEC-001........................................................................................7
+3.3. Requisito T├®cnico TEC-002........................................................................................9
+4. Verificaci├│n de requisitos de desarrollo........................................................................11
+4.1. Estrategias generales de validaci├│n..........................................................................11
+4.2. Inspecci├│n t├®cnica.....................................................................................................12
+Requisito Original:............................................................................................................12
+"El sistema backend debe registrar las reservas de las clases de spinning
+instant├íneamente y bloquear la base de datos de forma segura para que no haya
+sobrecupos, soportando a todos los usuarios conectados a las 6:00 p.m."....................12
+5. Conclusiones....................................................................................................................14
+
+=== PAGINA 3 ===
+3
+1. Introducci├│n
+Durante la fase de identificaci├│n y an├ílisis de requisitos de desarrollo del proyecto
+OLYMPUS CORE, el equipo evalu├│ las restricciones t├®cnicas, metodol├│gicas y
+operativas necesarias para garantizar la construcci├│n de una plataforma robusta,
+segura, escalable y alineada a las necesidades del gimnasio.
+El an├ílisis permiti├│ identificar factores cr├¡ticos relacionados con concurrencia, validaci├│n
+de acceso mediante QR, rendimiento del sistema, seguridad de la informaci├│n y
+compatibilidad tecnol├│gica. Asimismo, se definieron estrategias de mitigaci├│n de
+riesgos y mecanismos de validaci├│n t├®cnica orientados a garantizar la calidad del
+producto final.
+El desarrollo del proyecto se basa en metodolog├¡as ├ígiles y herramientas modernas de
+ingenier├¡a de software, priorizando la construcci├│n incremental del MVP, la
+trazabilidad de cambios y la validaci├│n continua de requisitos.
+2. Identificaci├│n y An├ílisis de Requisitos de Desarrollo:
+1. Mapeo de Restricciones del Proyecto
+Durante esta etapa se identificaron las restricciones t├®cnicas, temporales,
+metodol├│gicas y operativas que condicionan el desarrollo del sistema.
+Tipo de Descripci├│n de la restricci├│n Justificaci├│n o
+restricci├│n fuente
+Tecnol├│gica El sistema requiere la utilizaci├│n de An├ílisis de requisitos
+hardware espec├¡fico para el control de del
+acceso, como lectores biom├®tricos y de gimnasio.
+c├│digos QR.
+Tecnol├│gica El Sistema de Gesti├│n de Base de Datos Decisi├│n t├®cnica
+(SGBD) ser├í estrictamente PostgreSQL para
+asegurar integridad relacional y manejo
+
+=== PAGINA 4 ===
+4
+eficiente de concurrencia.
+Temporal El tiempo m├íximo para el desarrollo y Tiempo l├¡mite para
+entrega total del proyecto est├í fijado en 5 presentaci├│n del
+meses proyecto
+Proceso El desarrollo se gestionar├í mediante la Metodolog├¡a de
+metodolog├¡a ├ígil Extreme Programming desarrollo
+(XP), exigiendo pr├ícticas como Pair seleccionada
+Programming, TDD y un cliente in-situ (o
+representante constante).
+Seguridad El sistema deber├í implementar autenticaci├│n Requisitos no
+segura mediante JWT y cifrado bcrypt. funcionales
+Rendimiento La validaci├│n de acceso QR deber├í RNF del sistema
+completarse en menos de 2 segundos.
+Concurrencia El sistema deber├í soportar m├║ltiples reservas Shadowing y an├ílisis
+simult├íneas sin sobreventa de cupos. operacional
+Escalabilidad El sistema deber├í soportar crecimiento Stakeholders
+futuro de socios y reservas.
+Compatibilidad El sistema deber├í funcionar en computadoras Requisitos del
+y dispositivos m├│viles. producto
+Integraci├│n El sistema deber├í permitir futuras Due├▒o del gimnasio
+integraciones con APIs externas y sistemas
+de pago.
+Elemento Clasificaci├│n Justificaci├│n
+Desarrollo iterativo Requisito de Define la frecuencia de los hitos de
+en Sprints de 1 Proyecto / Proceso validaci├│n y la metodolog├¡a de trabajo del
+semana equipo. No es una caracter├¡stica visible
+para el usuario final del gimnasio.
+Uso de framework Requisito de Condiciona la selecci├│n de tecnolog├¡as y
+multiplataforma Proyecto la arquitectura para abaratar costos, pero
+(React (Restricci├│n t├®cnica) no define qu├® hace el sistema.
+Native/Flutter)
+Integraci├│n Requisito de Limita las decisiones de arquitectura de
+obligatoria con el Proyecto hardware del equipo de desarrollo,
+torniquete f├¡sico (Restricci├│n t├®cnica) oblig├índolos a adaptarse a equipos
+actual preexistentes.
+Control de versiones Requisito de Es una herramienta de trabajo exclusiva
+
+=== PAGINA 5 ===
+5
+Elemento Clasificaci├│n Justificaci├│n
+con Git y GitHub Proyecto / Proceso para los programadores, afecta la gesti├│n
+del c├│digo fuente.
+Validaci├│n de Requisito del Es lo que el sistema debe hacer y c├│mo
+c├│digo QR en Producto (RNF) debe comportarse de cara al usuario
+menos de 2 (recepcionista y socio).
+segundos
+Registro de Ficha de Requisito de Es una normativa del negocio y del estado
+Salud bajo Ley de Dominio / que el producto final debe cumplir
+Protecci├│n de Datos Restricci├│n legal obligatoriamente para poder operar.
+(Ley 29733)
+1.2. An├ílisis de Riesgos
+Restricci├│n Riesgo Probabilida Impacto Mitigaci├│n
+Identificado d
+L├¡mite de No completar el Alta Alto Utilizar el Planning
+tiempo (5 alcance total de Game de XP para
+meses) los m├│dulos priorizar estrictamente el
+operativos en el MVP. Realizar entregas
+tiempo peque├▒as y frecuentes
+establecido. (ciclos semanales) para
+asegurar valor temprano.
+Metodolog├¡a Resistencia del Media Medio Rotaci├│n constante de
+XP (TDD y equipo a parejas para compartir
+Pair programar en conocimiento.
+Programming) pares o curva de Mentor├¡a t├®cnica y
+aprendizaje adopci├│n gradual del
+lenta al escribir TDD en los
+pruebas antes que componentes
+el c├│digo (TDD), m├ís cr├¡ticos primero.
+retrasando las
+primeras
+iteraciones.
+Base de datos Inconsistencias Baja Alto Implementar un
+PostgreSQL en el esquema sistema de control de
+de base de datos versiones para la base de
+debido a cambios datos (ej. migraciones
+r├ípidos y con Sequelize o Prisma)
+refactorizaci├│n que se integre al pipeline
+constante propia de Integraci├│n Continua
+
+=== PAGINA 6 ===
+6
+de XP.
+Integraci├│n Incompatibilidad Media Alto
+QR con hardware del
+gimnasio
+Seguridad Robo de Media Cr├¡tico JWT, bcrypt y
+credenciales o validaciones OWASP
+accesos
+indebidos
+Escalabilidad Lentitud ante Media Alto Arquitectura modular y
+incremento de optimizaci├│n SQL
+usuarios
+APIs externas Ca├¡da de Baja Medio Retries y manejo
+servicios controlado de
+integrados excepciones
+3. Especificaci├│n de requisitos de desarrollo
+Despu├®s de la identificaci├│n y an├ílisis de restricciones, el equipo document├│ detalladamente
+los requisitos t├®cnicos necesarios para construir una plataforma robusta, escalable y alineada a
+los objetivos del gimnasio.
+3.1. Requisitos de Desarrollo
+1. El frontend ser├í desarrollado utilizando React.js y Tailwind CSS para
+garantizar compatibilidad multiplataforma y dise├▒o responsive.
+2. El backend ser├í implementado con Node.js y Express utilizando arquitectura
+basada en APIs REST.
+3. PostgreSQL ser├í utilizado como sistema gestor de base de datos relacional
+para asegurar integridad transaccional y soporte concurrente.
+4. El sistema implementar├í autenticaci├│n segura mediante JWT y cifrado bcrypt
+para proteger credenciales y sesiones.
+5. El m├│dulo de reservas deber├í soportar m├║ltiples solicitudes concurrentes sin
+generar sobreventa de cupos.
+6. El sistema integrar├í validaci├│n de acceso mediante c├│digo QR conectado al
+sistema de control de acceso del gimnasio.
+7. El equipo utilizar├í GitHub como herramienta de control de versiones y
+colaboraci├│n.
+8. El desarrollo seguir├í metodolog├¡a XP utilizando Pair Programming, TDD e
+integraci├│n continua.
+
+=== PAGINA 7 ===
+7
+9. Se implementar├ín pruebas unitarias y pruebas de concurrencia para validar
+estabilidad y rendimiento.
+10. El sistema deber├í mantener tiempos de respuesta menores a 2 segundos en
+procesos cr├¡ticos.
+3.2. Requisito T├®cnico TEC-001
+ID: TEC-001
+T├¡tulo: Implementar m├│dulo de reservas de clase en tiempo real
+Tipo: Tarea t├®cnica (backend + concurrencia)
+Se necesita la implementaci├│n de un m├│dulo backend que permita a los socios
+reservar clases grupales en tiempo real, validando de manera autom├ítica la
+disponibilidad de cupos, membres├¡a activa y restricciones por penalizaci├│n.
+Para ello, se deber├í soportar m├║ltiples reservas simult├íneas sin p├®rdida ni
+sobrescritura de informaci├│n, manteniendo actualizado el aforo de cada clase.
+Criterios de aceptaci├│n (funcionales)
+- Dado un usuario con membres├¡a activa y cupos disponibles, el sistema
+registra la reserva correctamente.
+- Despu├®s de cada reserva el aforo disponible se actualizar├í
+autom├íticamente por el sistema.
+- Si la clase no tiene cupos disponibles, el sistema devolver├í un mensaje
+explicando que el aforo est├í lleno.
+- El sistema bloquear├í la reserva por si un usuario tiene membres├¡a
+vencida o penalizaci├│n activa.
+- Se registran todas las reservas en la base de datos con fecha, hora y
+usuario asociado.
+
+=== PAGINA 8 ===
+8
+- El sistema deber├í soportar reservas simult├íneas evitando duplicidad o
+inconsistencias.
+Requisitos no funcionales
+- Rendimiento: El proceso de reserva debe completarse en menos de 2
+segundos.
+- Concurrencia: El sistema debe soportar al menos 100 usuarios
+simult├íneos.
+- Disponibilidad: El m├│dulo deber├í mantenerse operativo el 99.9% del
+tiempo.
+- Integridad: No debe existir sobrescritura ni p├®rdida de reservas.
+- Compatibilidad: El sistema deber├í funcionar en computadoras y
+dispositivos m├│viles.
+Dependencias
+- PostgreSQL configurado con control transaccional
+- M├│dulo de autenticaci├│n implementado
+- APIs REST configuradas
+- M├│dulo de penalizaciones operativo
+- Horario y aforos previamente registrados
+Definition of Ready (DoR)
+Criterio Estado requerido Responsable
+Modelo de datos Tablas de clases y Backend Team
+validado reservas implementadas
+APIs definidas Endpoints documentados Backend Team
+
+=== PAGINA 9 ===
+9
+Reglas de negocio Penalizaciones y aforos QA Team
+definidas documentados
+Diagramas UML Casos de uso y An├ílisis
+disponibles secuencias completados
+Casos de prueba Escenarios concurrentes Product Owner
+definidos
+Entorno backend APIs funcionando Backend Team
+operativo correctamente
+Definition of Done (DoD)
+Criterio Verificaci├│n
+Reservas operativas Registro correcto de reservas
+Validaci├│n de aforo Actualizaci├│n autom├ítica funcionando
+Manejo concurrente Sin duplicidad de reservas
+Pruebas exitosas Escenarios concurrentes probados
+Logs implementados Auditor├¡a de reservas disponible
+Seguridad validada Autenticaci├│n funcionando
+Documentaci├│n actualizada APIs y endpoints documentados
+Revisi├│n t├®cnica Validaci├│n realizada por el equipo
+3.3. Requisito T├®cnico TEC-002
+ID: TEC-002
+T├¡tulo: Implementar m├│dulo de validaci├│n de acceso mediante c├│digo QR
+Tipo: Tarea t├®cnica (backend + integraci├│n QR)
+Implementaci├│n de servicio backend que reciba c├│digos QR generados desde la
+aplicaci├│n del socio, consulte el estado de la membres├¡a en tiempo real y permita o
+bloquee autom├íticamente el acceso al gimnasio mediante integraci├│n con el sistema
+de torniquete.
+El m├│dulo deber├í conectarse con PostgreSQL, validar la vigencia de la membres├¡a y
+registrar cada intento de acceso en logs estructurados para fines de auditor├¡a y
+trazabilidad.
+Criterios de aceptaci├│n (funcionales)
+
+=== PAGINA 10 ===
+10
+- Dado un c├│digo QR v├ílido y una membres├¡a activa, el sistema permitir├í el
+acceso y devolver├í el estado que indica su aprobaci├│n.
+- Dado un QR inv├ílido o una membres├¡a vencida, el sistema devolver├í el
+estado de su membres├¡a expirada.
+- El sistema registra fecha, hora, usuario y resultado de validaci├│n en la base de
+datos.
+- Luego de que se haya aprobado el acceso, el sistema env├¡a una se├▒al de
+apertura al torniquete.
+- Dado un error de conexi├│n o timeout (>5s), el sistema intentar├í hasta 2 veces
+antes de devolver un mensaje de ÔÇ£validation service unavailableÔÇØ.
+- El sistema registrar├í logs estructurados (INFO, WARN, ERROR) para cada
+intento de acceso.
+Requisitos no funcionales
+- Seguridad: Las validaciones deber├ín utilizar autenticaci├│n JWT y cifrado
+bcrypt.
+- Rendimiento: El tiempo promedio de validaci├│n debe ser menor a 2
+segundos.
+- Disponibilidad: El m├│dulo debe mantenerse operativo el 99.9% del tiempo.
+- Trazabilidad: Todos los accesos deber├ín almacenarse en logs de auditor├¡a.
+- Escalabilidad: El sistema debe soportar m├ís de 100 usuarios concurrentes.
+Dependencias
+- Base de datos PostgreSQL y operativa
+- Integraci├│n con lector QR y torniquete
+- APIs backend configuradas.
+- Variables de entorno JWT definidas
+- Conexi├│n estable a red local del gimnasio
+Definition of Ready (DoR)
+Criterio Estado requerido
+Diagramas UML disponibles Diagramas de secuencia y actividades
+completados
+Base de datos modelada Tablas y relaciones validadas
+Endpoints definidos APIs documentadas y revisadas
+Validaciones definidas Reglas de membres├¡a documentadas
+Entorno de desarrollo Backend y frontend configurados
+Casos de prueba Escenarios de ├®xito y error definidos
+Seguridad documentada JWT y cifrado especificados
+
+=== PAGINA 11 ===
+11
+Definition of Done (DoD)
+Criterio Verificaci├│n
+C├│digo implementado Funcionalidad integrada correctamente
+Validaci├│n QR operativa Acceso permitido y denegado funcionando
+Pruebas unitarias Todas las pruebas exitosas
+Logs implementados Auditoria visible en pruebas
+Manejo de errores Excepciones controladas
+Seguridad validada Contrase├▒as cifradas y JWT funcional
+Documentaci├│n t├®cnica APIs y configuraciones actualizadas
+Revisi├│n de c├│digo Validaci├│n realizada por el equipo
+4. Verificaci├│n de requisitos de desarrollo
+4.1. Estrategias generales de validaci├│n
+ÔùÅ Revisiones de Pares (Peer Reviews): Se realizar├ín inspecciones
+t├®cnicas est├íticas mediante grupos de desarrolladores para validar que
+los requisitos documentados (DoR y DoD) sean comprendidos
+un├ínimemente.
+ÔùÅ Prototipos Arquitect├│nicos (Spikes): Antes de programar el sistema
+completo, se desarrollar├í un prototipo r├ípido (piloto) del escaneo del
+c├│digo QR y su comunicaci├│n con el torniquete f├¡sico para validar la
+compatibilidad de hardware.
+ÔùÅ Pruebas de Estr├®s y Rendimiento: Se ejecutar├ín simulaciones de
+carga concurrente en el entorno de desarrollo para asegurar que el
+m├│dulo de reservas soporte la demanda sin bloquear la base de datos
+(verificando latencias menores a 2 segundos).
+
+=== PAGINA 12 ===
+12
+ÔùÅ Auditor├¡as de Seguridad: Se ejecutar├ín pruebas de vulnerabilidades
+basadas en las gu├¡as de OWASP para validar que la "Ficha de Salud" y
+los datos de pago est├®n correctamente cifrados.
+ÔùÅ Verificaci├│n Automatizada (CI/CD): Se auditar├í el cumplimiento de
+los est├índares de codificaci├│n insertando herramientas de an├ílisis
+est├ítico (Linters) directamente en el pipeline de validaci├│n de GitHub.
+4.2. Inspecci├│n t├®cnica
+Requisito Original:
+"El sistema backend debe registrar las reservas de las clases de
+spinning instant├íneamente y bloquear la base de datos de forma
+segura para que no haya sobrecupos, soportando a todos los
+usuarios conectados a las 6:00 p.m."
+Atributo Evaluaci├│n Observaciones Recomendaci├│n
+Atomicidad No at├│mico Mezcla dos preocupaciones Separar ambos
+distintas: (a) el tiempo de conceptos
+respuesta del sistema
+("instant├íneamente") y (b)
+el control de concurrencia y
+sobrecupos en la base de
+datos. Deben separarse.
+Testabilidad No testable Palabras como Definir m├®tricas
+"instant├íneamente" y "todos cuantificables
+los usuarios" no son
+cuantificables. El equipo de
+pruebas no puede medir
+"todos", necesita un n├║mero
+m├íximo de peticiones
+simult├íneas (ej. 200 req/sec)
+para configurar la prueba de
+
+=== PAGINA 13 ===
+13
+estr├®s.
+Factibilidad Parcialmente Node.js y PostgreSQL (las Utilizar bloqueo
+factible tecnolog├¡as elegidas en los por fila
+RD) pueden manejar esto,
+pero "bloquear la base de
+datos" entera no es factible
+ni eficiente; arruinar├¡a el
+rendimiento de todo el
+gimnasio. Debe
+especificarse que el bloqueo
+es solo para la fila de la
+clase espec├¡fica.
+No Ambiguo T├®rminos como "de forma Especificar
+ambig├╝edad segura" son vagos. ┬┐Se seguridad
+refiere a seguridad contra transaccional
+hackers (OWASP) o
+seguridad transaccional
+(ACID)?
+Requisito T├®cnico Reescrito y Validado: Al detectar las deficiencias y la falta de
+par├ímetros matem├íticos para las pruebas automatizadas, el requisito se reescribe de
+forma medible para el equipo de desarrollo:
+ÔùÅ ID: TEC-03
+ÔùÅ Descripci├│n: El endpoint de creaci├│n de reservas (POST /reservas) en el
+backend debe implementar bloqueos a nivel de fila utilizando transacciones de
+PostgreSQL para prevenir condiciones de carrera (Race Conditions) al
+verificar y actualizar el aforo m├íximo de una clase.
+ÔùÅ Criterio de Aceptaci├│n (Meta matem├ítica): Una prueba de carga
+automatizada en el entorno de desarrollo simular├í 150 peticiones concurrentes
+en el mismo segundo apuntando a una clase con un aforo m├íximo de 20
+personas.
+
+=== PAGINA 14 ===
+14
+ÔùÅ Condici├│n de ├®xito: El sistema debe registrar exactamente 20 reservas
+exitosas (HTTP 201) y 130 rechazos por clase llena (HTTP 409), manteniendo
+un tiempo de respuesta (Percentil 95) menor a 500 ms para el lote completo.
+ÔùÅ Validaciones T├®cnicas Esperadas
+Validaci├│n Resultado esperado
+Control concurrente No existe sobreventa de cupos
+Integridad de datos No existen reservas duplicadas
+Transacciones PostgreSQL Operativas correctamente
+Respuestas HTTP Correctamente diferenciadas
+Rendimiento Percentil 95 Ôëñ 500 ms
+ÔùÅ Riesgo Mitigado
+Este requisito t├®cnico permite mitigar:
+- P├®rdida de integridad del afor
+- Sobreventa de clases
+- Inconsistencias concurrentes
+- Corrupci├│n de datos
+- Errores de sincronizaci├│n entre usuarios simult├íneos
+5. Conclusiones
+- Los requisitos de desarrollo permitieron identificar restricciones t├®cnicas,
+metodol├│gicas y operativas cr├¡ticas para el proyecto OLYMPUS CORE.
+
+=== PAGINA 15 ===
+15
+- La aplicaci├│n de metodolog├¡as ├ígiles y validaciones t├®cnicas mejora la calidad
+y trazabilidad del desarrollo.
+- La verificaci├│n t├®cnica permiti├│ transformar requisitos ambiguos en requisitos
+medibles y verificables.
+- La implementaci├│n de control concurrente, integraci├│n QR y seguridad basada
+en JWT fortalece la confiabilidad y escalabilidad del sistema.
+- El enfoque incremental basado en MVP facilita la construcci├│n progresiva del
+sistema y reduce riesgos durante el desarrollo.
+
