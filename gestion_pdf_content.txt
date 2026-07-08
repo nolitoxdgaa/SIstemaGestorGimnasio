@@ -1,0 +1,196 @@
+﻿=== PAGINA 1 ===
+UNIVERSIDAD NACIONAL MAYOR DE SAN MARCOS
+FACULTAD DE SISTEMAS E INFORM├üTICA
+ASIGNATURA
+Ingenier├¡a de Requisitos
+DOCENTE
+Rodr├¡guez Rodr├¡guez, Ciro
+INTEGRANTES GRUPO 8:
+Alva Chacon, Jose Benjamin 24200045
+Cordova Guerra, Josue Rodrigo 24200155
+Sandoval Dominguez, Erick Marco 24200172
+Melendez Bustamante, Alvaro Mathias 24200166
+2026
+
+=== PAGINA 2 ===
+├ìndice
+4. Gesti├│n de requisitos........................................................................................................2
+4.1. L├¡nea base: Declaraci├│n de los requisitos congelados...............................................2
+4.2. Matriz de trazabilidad..................................................................................................2
+4.3. Gesti├│n de cambios (Simulaci├│n)................................................................................4
+4.3.1. Proceso de gesti├│n de cambios adoptado.........................................................4
+4.3.2. Formulario de solicitud de cambio......................................................................5
+4.3.3 Evaluaci├│n del cambio - An├ílisis de impacto......................................................6
+4.3.4. Aprobaci├│n del Cambio ÔÇö Comit├® de Control de Cambios (CCB)....................7
+4.3.5. Plan de Implementaci├│n (Versi├│n 2.0)...............................................................8
+4.3.6. Verificaci├│n y validaci├│n.....................................................................................8
+4.3.7. Documentaci├│n del cambio................................................................................8
+5. Propuesta de Valor del Proyecto......................................................................................9
+4. Gesti├│n de requisitos
+4.1. L├¡nea base: Declaraci├│n de los requisitos congelados.
+La l├¡nea base inicial del proyecto estar├í conformada por los siguientes m├│dulos aprobados:
+ÔùÅ Gesti├│n de socios
+ÔùÅ Gesti├│n de membres├¡as.
+ÔùÅ Reserva de clases.
+ÔùÅ Control de acceso QR.
+ÔùÅ Dashboard administrativo.
+ÔùÅ Gesti├│n de rutinas.
+Cualquier modificaci├│n posterior deber├í pasar por evaluaci├│n del equipo.
+4.2. Matriz de trazabilidad
+ID Requisito Caso de Uso M├│dulo
+
+=== PAGINA 3 ===
+RF-01 Registrar socio CU-01: Registrar socio Recepci├│n
+RF-02 Inicio de sesi├│n CU-02: Iniciar sesi├│n Seguridad
+RF-03 Generar QR CU-03: Generar c├│digo QR Acceso
+RF-04 Validar acceso CU-04: Validar acceso QR Acceso
+RF-05 Bloqueo autom├ítico CU-05: Bloquear acceso Acceso
+vencido
+RF-06 Cat├ílogo de clases CU-06: Reservar clase Reservas
+grupales
+RF-07 Control y registro de CU-07: Reservar clase Administraci├│n
+asistencia/inasistencia
+por Administrador
+RF-08 Reservas y cancelaci├│n CU-08 Reservar clase Reservas
+de clases por socio
+RF-09 Registrar pagos CU-09 Registrar pago Recepci├│n
+
+=== PAGINA 4 ===
+RF-10 Asignar rutinas CU-10 Asignar rutina Entrenadores
+RF-11 Registro de progreso CU-11 Registrar progreso Entrenadores
+f├¡sico
+RF-12 Registro de ficha CU-12 Registrar ficha Socio
+m├®dica m├®dica
+RF-13 Dashboard CU-13 Visualizar Administraci├│n
+administrativo dashboard
+RF-14 Historial de pagos CU-14 Consultar historial Membres├¡as
+RF-15 Edici├│n de informaci├│n CU-15 Editar perfil de Recepci├│n
+socio
+4.3. Gesti├│n de cambios (Simulaci├│n)
+La gesti├│n de cambios en OLYMPUS CORE se maneja siguiendo un proceso formal
+estructurado en seis etapas: identificaci├│n, evaluaci├│n, aprobaci├│n, implementaci├│n,
+verificaci├│n/validaci├│n y documentaci├│n. Esto asegura que cualquier modificaci├│n a los
+requisitos congelados en la l├¡nea base (secci├│n 4.1) sea controlada, trazable y no comprometa
+el alcance del MVP.
+
+=== PAGINA 5 ===
+4.3.1. Proceso de gesti├│n de cambios adoptado
+Etapa Descripci├│n
+1. Identificaci├│n Registro formal de la solicitud de cambio (formulario SC),
+incluyendo motivo, solicitante e impacto esperado.
+2. Evaluaci├│n An├ílisis de impacto t├®cnico y de negocio; consulta con
+miembros del equipo si es necesario.
+3. Aprobaci├│n Revisi├│n por el Comit├® de Control de Cambios (CCB) del grupo,
+integrado por los 4 integrantes.
+4. Implementaci├│n Planificaci├│n y ejecuci├│n del cambio, actualizando el m├│dulo
+afectado.
+5. Verificaci├│n y Pruebas para confirmar que el cambio cumple lo esperado sin
+validaci├│n afectar otros m├│dulos.
+6. Documentaci├│n Actualizaci├│n de la matriz de trazabilidad y bit├ícora de cambios.
+4.3.2. Formulario de solicitud de cambio
+ID Solicitud: SC-001
+Campo Respuesta
+Fecha 18/06/2026
+Solicitante Administraci├│n del gimnasio (stakeholder)
+Descripci├│n del cambio Implementar notificaciones autom├íticas por WhatsApp para
+recordar el vencimiento de membres├¡as.
+Motivo / Justificaci├│n Reducir la tasa de socios que no renuevan por falta de
+recordatorio, y disminuir la carga de recepci├│n al no tener que
+llamar manualmente.
+Impacto esperado Positivo: mejora en retenci├│n de socios y reducci├│n de trabajo
+manual. Negativo: incremento de costo por integraci├│n con
+API externa y dependencia de un tercero.
+Clasificaci├│n Nueva funcionalidad
+Prioridad percibida Media
+
+=== PAGINA 6 ===
+4.3.3 Evaluaci├│n del cambio - An├ílisis de impacto
+Impacto t├®cnico:
+ÔùÅ M├│dulo de Membres├¡as: se debe crear la l├│gica de alertas para disparar mensajes por
+WhatsApp adem├ís de las notificaciones internas.
+ÔùÅ Integraci├│n con API externa (ej. WhatsApp Business API / Twilio).
+ÔùÅ Base de datos: se requiere almacenar el n├║mero de tel├®fono verificado del socio y el
+estado de env├¡o de cada notificaci├│n.
+ÔùÅ Seguridad: manejo de credenciales de la API y protecci├│n de datos personales
+(n├║mero telef├│nico).
+Impacto en el negocio:
+ÔùÅ Beneficio: mejora en la experiencia del socio y en la tasa de renovaci├│n de
+membres├¡as.
+ÔùÅ Riesgo operativo: dependencia de un proveedor externo (costos por mensaje, l├¡mites
+de env├¡o, posible ca├¡da del servicio).
+Costo estimado: desarrollo (3 d├¡as) + pruebas de integraci├│n (2 d├¡as) + despliegue (1 d├¡a) Ôëê 1
+semana adicional.
+An├ílisis Costo-Beneficio:
+ÔùÅ Costo estimado: desarrollo + integraci├│n con API Ôëê S/. 1,500 (incluye configuraci├│n
+inicial y pruebas).
+
+=== PAGINA 7 ===
+ÔùÅ Beneficio estimado: reducci├│n del 15% en membres├¡as vencidas sin renovar, lo que
+representa un incremento estimado en ingresos recurrentes.
+Riesgos identificados:
+1. Falla o l├¡mite de env├¡os de la API externa.
+2. N├║meros de tel├®fono inv├ílidos o no verificados.
+3. Incremento del costo si el volumen de socios crece.
+4. Posible incumplimiento de normativa de protecci├│n de datos si no se gestiona
+correctamente el consentimiento del socio.
+Alternativas: usar notificaciones por correo electr├│nico como respaldo si el env├¡o por
+WhatsApp falla.
+4.3.4. Aprobaci├│n del Cambio ÔÇö Comit├® de Control de Cambios (CCB)
+Acta de reuni├│n CCB ÔÇö SC-001
+ÔùÅ Participantes: Alva Chacon , Cordova Guerra, Sandoval Dominguez, Melendez
+Bustamante.
+ÔùÅ Decisi├│n: Cambio aprobado con condiciones, para ser implementado en la versi├│n 2.0
+del sistema.
+ÔùÅ Justificaci├│n: El MVP actual debe priorizar los m├│dulos cr├¡ticos ya definidos en la
+l├¡nea base (acceso QR, reservas, pagos). Agregar la integraci├│n con WhatsApp en esta
+etapa introduce una dependencia externa que no es indispensable para el lanzamiento
+inicial.
+ÔùÅ Condiciones para su implementaci├│n futura:
+Ôùï Contar con presupuesto aprobado para el servicio de mensajer├¡a.
+
+=== PAGINA 8 ===
+Ôùï Obtener consentimiento expl├¡cito del socio para el uso de su n├║mero
+telef├│nico.
+Ôùï Definir un canal de respaldo (correo electr├│nico) en caso de falla del servicio.
+4.3.5. Plan de Implementaci├│n (Versi├│n 2.0)
+Actividad Responsable Duraci├│n estimada
+Configuraci├│n de cuenta Equipo backend 1 d├¡a
+API de mensajer├¡a
+Extensi├│n del m├│dulo de Equipo backend 2 d├¡as
+alertas (RF-10)
+Pruebas de integraci├│n Equipo QA 1 d├¡a
+Despliegue en ambiente de DevOps 1 d├¡a
+pruebas
+4.3.6. Verificaci├│n y validaci├│n
+ÔùÅ Prueba funcional: enviar notificaci├│n de prueba a un n├║mero verificado y confirmar
+recepci├│n.
+ÔùÅ Prueba de integridad: verificar que el estado de la membres├¡a y la fecha de
+vencimiento coincidan con el mensaje enviado.
+ÔùÅ Criterio de aceptaci├│n: el 100% de los socios con membres├¡a pr├│xima a vencer (7 d├¡as
+antes) deben recibir la notificaci├│n correctamente.
+4.3.7. Documentaci├│n del cambio
+Campo Valor
+ID Cambio SC-001
+Fecha de implementaci├│n Pendiente (versi├│n 2.0)
+
+=== PAGINA 9 ===
+Descripci├│n Notificaciones autom├íticas por WhatsApp para
+vencimiento de membres├¡as
+Motivo Mejorar retenci├│n de socios y reducir carga operativa de
+recepci├│n
+Impacto Medio (nuevo m├│dulo de integraci├│n externa)
+Resultado de validaci├│n Pendiente
+Aprobado por CBB del equipo
+Documentaci├│n actualizada S├¡
+5. Propuesta de Valor del Proyecto
+OLYMPUS CORE no solo busca digitalizar procesos administrativos, sino transformar la
+experiencia operativa y de autogesti├│n dentro del gimnasio mediante automatizaci├│n, control
+inteligente y herramientas modernas.
+El sistema permitir├í:
+ÔùÅ Reducci├│n de tiempos en atenci├│n al cliente.
+ÔùÅ Disminuci├│n de errores humanos.
+ÔùÅ Mejoramiento en la experiencia de los socios.
+ÔùÅ Incremento del control financiero.
+ÔùÅ Optimizaci├│n del control de acceso.
+ÔùÅ Centralizaci├│n de toda la informaci├│n del negocio.
+
